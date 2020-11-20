@@ -10,5 +10,29 @@ https://books.google.rs/books?id=LyFzDwAAQBAJ&pg=PA160&dq=generating+test+questi
 https://cft.vanderbilt.edu/guides-sub-pages/writing-good-multiple-choice-test-questions/
 
 
-=== ===
+=== REFERENCES ===
 
+
+Burton, Steven J., Sudweeks, Richard R., Merrill, Paul F., and Wood, Bud. How to Prepare Better Multiple Choice Test Items: Guidelines for University Faculty, 1991.
+Cheung, Derek and Bucat, Robert. How can we construct good multiple-choice items? Presented at the Science and Technology Education Conference, Hong Kong, June 20-21, 2002.
+Haladyna, Thomas M. Developing and validating multiple-choice test items, 2nd edition. Lawrence Erlbaum Associates, 1999.
+Haladyna, Thomas M. and Downing, S. M.. Validity of a taxonomy of multiple-choice item-writing rules. Applied Measurement in Education, 2(1), 51-78, 1989.
+Morrison, Susan and Free, Kathleen. Writing multiple-choice test items that promote and measure critical thinking. Journal of Nursing Education 40: 17-24, 2001.
+
+
+=== RESEARCH GATE ===
+
+https://www.researchgate.net/publication/298616780_Algorithm_for_automatic_test_paper_generation
+https://www.researchgate.net/publication/261447167_Designing_GA-Based_Auto-Generator_of_Examination_Questions
+https://www.researchgate.net/publication/327604183_Aptitude_Question_Paper_Generator_and_Answer_Verification_System_IC3_2018
+https://www.researchgate.net/publication/43199334_Shuffling_Algorithms_for_Automatic_Generator_Question_Paper_System
+https://www.researchgate.net/publication/286441120_Automatic_Generation_of_Valid_and_Equivalent_Assessment_Instruments
+https://www.researchgate.net/publication/271547075_Fuzzy_logic_based_Intelligent_Question_Paper_Generator
+https://www.researchgate.net/publication/280944549_Framework_for_Automatic_Examination_Paper_Generation_System
+https://www.researchgate.net/publication/269304166_Representing_examination_question_knowledge_into_Genetic_Algorithm
+https://www.researchgate.net/publication/328065175_Automated_Test_Paper_Generation_Using_Utility_Based_Agent_and_Shuffling_Algorithm
+
+
+=== SCIENCEDIRECT ===
+
+https://www.sciencedirect.com/science/article/pii/S0895717709004099
