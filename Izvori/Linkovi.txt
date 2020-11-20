@@ -36,3 +36,8 @@ https://www.researchgate.net/publication/328065175_Automated_Test_Paper_Generati
 === SCIENCEDIRECT ===
 
 https://www.sciencedirect.com/science/article/pii/S0895717709004099
+
+
+=== STRUKTURE ===
+
+https://www.geeksforgeeks.org/design-a-data-structure-that-supports-insert-delete-search-and-getrandom-in-constant-time/
