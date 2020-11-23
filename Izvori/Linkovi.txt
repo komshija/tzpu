@@ -42,3 +42,19 @@ https://www.sciencedirect.com/science/article/pii/S0895717709004099
 === STRUKTURE ===
 
 https://www.geeksforgeeks.org/design-a-data-structure-that-supports-insert-delete-search-and-getrandom-in-constant-time/
+
+
+=== ALGORITMI ===
+
+https://en.wikipedia.org/wiki/Memetic_algorithm
+https://en.wikipedia.org/wiki/Ant_colony_optimization_algorithms
+https://en.wikipedia.org/wiki/Apriori_algorithm
+Random + Backtracking?
+
+=== LINKOVI ===
+**** classical test theory
+https://en.wikipedia.org/wiki/Classical_test_theory
+
+
+=== GOTOVA RESENJA PROBLEMA ===
+http://www.freshlogics.com/paper_generator.php
