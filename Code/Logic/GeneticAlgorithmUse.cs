@@ -63,7 +63,7 @@ namespace Logic
             var mutation = new TestMutation();
 
 
-            var termination = new GenerationNumberTermination(1000);
+            var termination = new AndTermination(new ITermination[] { new FitnessThresholdTermination(tezina),new GenerationNumberTermination(1000) });
             var ga = new GeneticAlgorithm(
                             population,
                             fitness,
