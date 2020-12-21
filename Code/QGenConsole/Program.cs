@@ -19,17 +19,12 @@ namespace QGenConsole
             Console.WriteLine("================= SVA PITANJA  =================");
             Console.WriteLine();
             Console.WriteLine();
-            foreach (var question in questions)
-                Console.WriteLine(question.ToString());
+          //  foreach (var question in questions)
+           //     Console.WriteLine(question.ToString());
 
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("================= PITANJA SA UKUPNOM TEZINOM 3 +- 0.1 =================");
-            Console.WriteLine();
-            Console.WriteLine();
-            questions = dataAccess.GetQuestionsByOverallDifficulty(3, 0.1);
-            foreach (var question in questions)
-                Console.WriteLine(question.ToString());
+            var gen = new Logic.GeneticAlgorithmUse();
+            var test = gen.UseAlgorithm();
+            Console.WriteLine(test.ToString());
 
         }
     }
