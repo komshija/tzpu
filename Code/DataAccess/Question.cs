@@ -66,6 +66,14 @@ namespace DataAccess
             }
             return false;
         }
+
+
+        public override int GetHashCode()
+        {
+            return id;
+        }
+
+
         #endregion
 
         #region Methods
