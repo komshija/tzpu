@@ -98,10 +98,7 @@ namespace DataAccess
 
         #endregion
 
-
         #region Private Methods
-
-
         private void InitQuestionsRandom()
         {
             Dictionary<int, string> namesOfDomains = new Dictionary<int, string>(5);
@@ -110,12 +107,10 @@ namespace DataAccess
             namesOfDomains.Add(3, "Funkcije");
             namesOfDomains.Add(4, "Fajlovi");
             namesOfDomains.Add(5, "Matrice");
-
             Random rnd = new Random(69420);
             int NumOfQuestions = 1000;
             for (int i = 0; i < NumOfQuestions; i++)
             {
-
                 int numOfDomains = 1 + rnd.Next(5); // random oblasti od 1 do 5
                 List<Difficulty> difficulties = new List<Difficulty>(numOfDomains);
                 for (int j = 0; j < numOfDomains; j++)
@@ -127,12 +122,10 @@ namespace DataAccess
                         difficulties.Add(new Difficulty(domainId, namesOfDomains[domainId], domainDifficulty));
                     }
                 }
-
                 questions.Add(new Question(i, $"Pitanje {i}", difficulties));
             }
 
         }
         #endregion
-
     }
 }

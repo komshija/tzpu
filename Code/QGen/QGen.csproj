@@ -77,9 +77,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
-      <Project>{ee2207cf-01ca-4671-97e2-c702cfecfcf1}</Project>
-      <Name>DataAccess</Name>
+    <ProjectReference Include="..\Logic\Logic.csproj">
+      <Project>{0b37164e-de6b-4622-b7de-7ac086932ce6}</Project>
+      <Name>Logic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
