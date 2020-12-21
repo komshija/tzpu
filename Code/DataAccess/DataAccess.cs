@@ -90,8 +90,16 @@ namespace DataAccess
             return result;
         }
 
+
+        public List<Question> GetAllQuestions()
+        {
+            return questions;
+        }
+
         #endregion
 
+
+        #region Private Methods
 
 
         private void InitQuestionsRandom()
@@ -103,7 +111,7 @@ namespace DataAccess
             namesOfDomains.Add(4, "Fajlovi");
             namesOfDomains.Add(5, "Matrice");
 
-            Random rnd = new Random();
+            Random rnd = new Random(69420);
             int NumOfQuestions = 1000;
             for (int i = 0; i < NumOfQuestions; i++)
             {
@@ -124,10 +132,7 @@ namespace DataAccess
             }
 
         }
+        #endregion
 
-        public List<Question> GetAllQuestions()
-        {
-            return questions;
-        }
     }
 }
