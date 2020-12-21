@@ -20,14 +20,26 @@ namespace Logic
             Random r = new Random(10);
             IDataAccess dataAccess = DataAccess.DataAccess.GetInstance();
 
-            Test t = new Test(5);
+            List<Question> qs = new List<Question>();
 
-            t.AddQuestion(dataAccess.GetQuestionById(1 + r.Next(1000)));
-            t.AddQuestion(dataAccess.GetQuestionById(1 + r.Next(1000)));
-            t.AddQuestion(dataAccess.GetQuestionById(1 + r.Next(1000)));
-            t.AddQuestion(dataAccess.GetQuestionById(1 + r.Next(1000)));
-            t.AddQuestion(dataAccess.GetQuestionById(1 + r.Next(1000)));
+            qs.Add(dataAccess.GetQuestionById(1 + r.Next(1000)));
+            qs.Add(dataAccess.GetQuestionById(1 + r.Next(1000)));
+            qs.Add(dataAccess.GetQuestionById(1 + r.Next(1000)));
+            qs.Add(dataAccess.GetQuestionById(1 + r.Next(1000)));
+            qs.Add(dataAccess.GetQuestionById(1 + r.Next(1000)));
 
+            double sum = 0;
+            foreach (var q in qs)
+            {
+                Console.WriteLine($"{q.ToString()}");
+                sum += q.GetOverallDifficulty();
+            }
+
+              
+
+            Console.WriteLine($"Adam chromosome overall difficulty: {sum}");
+
+            Test t = new Test(qs, 5);
             // Chromosome => TEST
             // Inicijalna populacija => dva random testa
             // Generacija => ??
@@ -37,20 +49,20 @@ namespace Logic
             // Termination => Ima vec,koristi se OR, max 1000 generacija ili zadovoljena fitness funkcija
 
 
-            var population = new Population(2, 2, t);
+            var population = new TestPopulation(5, 50, t);
 
             // Kolko odgovara, ovde samo uzme ukupnu tezinu testa i vrati je
-            var fitness = new FuncFitness((c) =>
-            {
-                var fc = c as Test;
-                var values = fc.GetSumDiff();
-                return values;
-            });
 
+            Console.WriteLine("Unesite najmanju tezinu:");
+            double tezina = Convert.ToDouble(Console.ReadLine());
+
+
+            var fitness = new TestFitness(tezina);
             var selection = new TournamentSelection();
+            var crossover = new TestCrossover();
+            var mutation = new TestMutation();
 
-            var crossover = new UniformCrossover(0.5f);
-            var mutation = new PartialShuffleMutation();
+
             var termination = new GenerationNumberTermination(1000);
             var ga = new GeneticAlgorithm(
                             population,

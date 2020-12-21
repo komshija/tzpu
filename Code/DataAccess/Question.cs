@@ -54,6 +54,7 @@ namespace DataAccess
             StringBuilder s = new StringBuilder($"{id} :: Tekst: {text} :: ");
             foreach(Difficulty d in difficulties)
                 s.Append(d.ToString() + " ");
+            s.Append($" :: Overall Diff : {this.GetOverallDifficulty()}");
             return s.ToString();
         }
 
@@ -62,7 +63,7 @@ namespace DataAccess
             if(obj is Question)
             {
                 Question q = (Question)obj;
-                return q.id == this.id;
+                return q.GetOverallDifficulty() == this.GetOverallDifficulty();
             }
             return false;
         }

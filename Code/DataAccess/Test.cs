@@ -8,16 +8,39 @@ namespace DataAccess
     public class Test : ChromosomeBase
     {
 
-        List<Question> questions;
+        public List<Question> questions { get; protected set; }
 
-        public Test(int lenght) : base(lenght)
+        public Test(List<Question> qs, int lenght) : base(lenght)
         {
-            questions = new List<Question>(lenght);
+            questions = qs;
+            this.CreateGenes();
         }
 
         public override IChromosome CreateNew()
         {
-            return new Test(Length);
+            IDataAccess da = DataAccess.GetInstance();
+            List<Question> questionsNova = new List<Question>();
+
+            foreach (var existingQuestion in questions)
+            {
+                bool dodato = false;
+                do
+                {
+                    double tolerance = 2;
+                    var sameQ = da.GetQuestionsByOverallDifficulty(existingQuestion.GetOverallDifficulty(), tolerance);
+                    dodato = sameQ.Count > 0;
+                    
+                    if (dodato)
+                        questionsNova.Add(sameQ[new Random().Next(sameQ.Count)]);
+                    else
+                        tolerance += 0.5;
+                }
+                while (!dodato);
+
+            }
+
+
+            return new Test(questionsNova, Length);
         }
 
         public override Gene GenerateGene(int geneIndex)
@@ -38,19 +61,9 @@ namespace DataAccess
             StringBuilder result = new StringBuilder();
             foreach (var q in questions)
                 result.AppendLine(q.ToString());
+            result.AppendLine($"Overall difficulty sum: {GetSumDiff()}");
             return result.ToString();
         }
         
-        public void AddQuestion(Question q)
-        {
-            if(questions.Capacity > questions.Count)
-            {
-                questions.Add(q);
-                int i = questions.Count - 1;
-                ReplaceGene(i,GenerateGene(i));
-            }
-        }
-
-
     }
 }
