@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using MiSe.Shuffle;
 
 namespace DataAccess
 {
@@ -22,33 +23,26 @@ namespace DataAccess
             IDataAccess da = DataAccess.GetInstance();
             List<Question> questionsNova = new List<Question>();
             Test result = null;
-
+            Random r = new Random();
             do
             {
-                bool nedovoljnoPitanja = true;
-                while (nedovoljnoPitanja)
+                //Uzme polovinu slicnih pitanja nalik na trenutna pitanja 
+                foreach (var existingQuestion in ShuffleOps.ShuffleCopy<Question>(questions,r).Take(this.Length / 2))
                 {
-
-
-                    foreach (var existingQuestion in questions)
-                    {
-
-                        var sameQ = da.GetQuestionsWhichContainDomains(existingQuestion.GetDomainIds());
-
-                        questionsNova.Add(sameQ[new Random().Next(sameQ.Count)]);
-                        questionsNova = questionsNova.Distinct().ToList();
-
-                        if (questionsNova.Count == this.Length) {
-                            nedovoljnoPitanja = false;
-                            break;
-                        }
-                    }
+                    var sameQ = da.GetQuestionsWhichContainDomains(existingQuestion.GetDomainIds());
+                    questionsNova.Add(sameQ[r.Next(sameQ.Count)]);
                 }
+
+                //Ostatk pitanja uzme iz celokupne banke nasumicno
+                questionsNova.AddRange(ShuffleOps.ShuffleCopy<Question>(da.GetAllQuestions(), r).Take(this.Length));
+
+                questionsNova = questionsNova.Distinct().ToList();
+                ShuffleOps.ShuffleInPlace<Question>(questionsNova, r);
+                questionsNova = questionsNova.Take(Length).ToList();
+
                 result = new Test(questionsNova, Length);
             }
             while (result.HasDuplicate());
-
-
 
             return result;
         }

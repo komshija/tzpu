@@ -51,10 +51,11 @@ namespace DataAccess
 
         public override string ToString()
         {
-            StringBuilder s = new StringBuilder($"{id} :: Tekst: {text} :: ");
+            char tab = id > 1000 ? '\t' : ' ';
+            StringBuilder s = new StringBuilder($"{id} :: {tab}");
             foreach(Difficulty d in difficulties)
-                s.Append(d.ToString() + " ");
-            s.Append($" :: Overall Diff : {this.GetOverallDifficulty()}");
+                s.Append(d.ToString() + "\t");
+            //s.Append($" :: Overall Diff : {this.GetOverallDifficulty()}");
             return s.ToString();
         }
 

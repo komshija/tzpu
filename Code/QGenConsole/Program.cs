@@ -14,24 +14,16 @@ namespace QGenConsole
             IDataAccess dataAccess = DataAccess.DataAccess.GetInstance();
             var questions = dataAccess.GetAllQuestions();
 
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("================= SVA PITANJA  =================");
-            Console.WriteLine();
-            Console.WriteLine();
-          //  foreach (var question in questions)
-           //     Console.WriteLine(question.ToString());
-
             var gen = new Logic.GeneticAlgorithmUse();
-            var test = gen.UseAlgorithm();
+            Test test = gen.UseAlgorithm();
 
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("Najbolji test:");
+            Console.WriteLine("Best test:");
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine(test.ToString());
-            Console.WriteLine($"Trenutni fitness: {test.Fitness}");
+            Console.WriteLine($"Test fitness: {test.Fitness}");
 
         }
     }

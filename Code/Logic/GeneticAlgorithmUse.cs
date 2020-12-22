@@ -21,41 +21,32 @@ namespace Logic
             Random r = new Random(10);
             IDataAccess dataAccess = DataAccess.DataAccess.GetInstance();
 
+            int Test_Lenght = 10;
+
             List<Question> qs = new List<Question>();
 
-            qs.Add(dataAccess.GetQuestionById(1 + r.Next(1000)));
-            qs.Add(dataAccess.GetQuestionById(1 + r.Next(1000)));
-            qs.Add(dataAccess.GetQuestionById(1 + r.Next(1000)));
-            qs.Add(dataAccess.GetQuestionById(1 + r.Next(1000)));
-            qs.Add(dataAccess.GetQuestionById(1 + r.Next(1000)));
-
-            double sum = 0;
-            foreach (var q in qs)
-            {
-                Console.WriteLine($"{q.ToString()}");
-                sum += q.GetOverallDifficulty();
-            }
+            for (int i = 0; i < Test_Lenght; i++)
+                qs.Add(dataAccess.GetQuestionById(1 + r.Next(1000)));
 
 
 
-            Console.WriteLine($"Adam chromosome overall difficulty: {sum}");
+            Test t = new Test(qs, Test_Lenght);
 
-            Test t = new Test(qs, 5);
-            // Chromosome => TEST
-            // Inicijalna populacija => dva random testa
-            // Generacija => ??
-            // Fitnes Func => Treba da bude po tome sta unese korisnik
-            // Crossover => Implementiramo, 60% parent 40% ostali
-            // Mutation => Implementiramo menjamo 1 pitanje u 1% slucajeva
-            // Termination => Ima vec,koristi se OR, max 1000 generacija ili zadovoljena fitness funkcija
+            Console.WriteLine("=================== ADAM TEST ===================");
+            Console.WriteLine(t.ToString());
+            Console.WriteLine("=================================================");
+            Console.WriteLine();
+            Console.WriteLine("Starting genetic algorithm...");
+            Console.WriteLine();
+            Console.WriteLine("=================================================");
+            Console.WriteLine();
 
 
+
+
+            //Inicjalno na osnovu test-a kreira t kreira 15 testa koja su slicna 
+            //Maksimalno u generaciji moze da ima 50 testa i od njih bira najbolji
             var population = new TestPopulation(15, 50, t);
-
-            // Kolko odgovara, ovde samo uzme ukupnu tezinu testa i vrati je
-
-            //Console.WriteLine("Unesite najmanju tezinu:");
-            //double tezina = Convert.ToDouble(Console.ReadLine());
 
             //1 - Nizovi
             //2 - Algoritmi
@@ -63,33 +54,54 @@ namespace Logic
             //4 - Fajlovi
             //5 - Matrice
 
+            // Ovi parametri se podesavaju sta se trazi da vrati
+            // Oblasti po ID-jevima koje treba da uvrsti
+            List<int> oblasti = new List<int> { 1, 2, 3, 4, 5 };
+            // Zastupljenost po oblastima koja odgovara poziciji gore
+            List<float> zastupljenost = new List<float> { 0.6f, 0.2f, 0.2f, 0.4f, 0.2f };
+            // Tezine za oblasti
+            List<int> tezine = new List<int> { 3, 2, 5 ,4 };
 
 
-            var fitness = new TestFitness(new List<int> { 1, 2, 3, 4, 5 }, new List<float> { 0.6f, 0.2f, 0.2f, 0.4f, 0.2f } , new List<int> { 3, 2, 5 }, 0);
-            var selection = new EliteSelection();
-            var crossover = new TestCrossover();
-            var mutation = new TestMutation();
 
 
+            var fitness = new TestFitness(oblasti, zastupljenost, tezine); 
+            // Selekcija => Bira najbolji iz generacije
+            ISelection selection = new EliteSelection();
 
-            var termination = new AndTermination(new ITermination[] { new FitnessStagnationTermination(500), new GenerationNumberTermination(1000) }) ;
-            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-            
-            ga.Termination = termination;
+            // Crossover => Shuffle crossover, od 10 roditelj dobijamo 10 deteta koja su unikatna i ne ponavljaju se
+            ICrossover crossover = new TestCrossover();
 
-            ga.GenerationRan += (sender, arg) =>
+            // Menjamo jedno pitanje nasumicnim pitanjem iz baze podataka
+            IMutation mutation = new TestMutation();   
+
+            // Uslov za prekid genetskog algoritma
+            // 1. Kad fitness stagnira, tj 500 generacije za redom daju isti fitness 
+            // 2. Ako napravimo 1000 generacija
+            ITermination termination = new OrTermination(new ITermination[] { new FitnessStagnationTermination(250), new GenerationNumberTermination(1000) }) ;
+            GeneticAlgorithm ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
             {
-                //Console.WriteLine("Trenutni najbolji test:");
-                //Test test = ga.BestChromosome as Test;
-                //Console.WriteLine(test.ToString());
-                Console.WriteLine($"Trenutni fitness: {ga.BestChromosome.Fitness}");
-
+                Termination = termination
             };
 
+            Console.WriteLine("Fitness change:");
+            // Callback, prikazuje kada dodje do promene fitnessa
+            double oldFitness = 0;
+            ga.GenerationRan += (sender, arg) =>
+            {
+                if (ga.GenerationsNumber % 100 == 0)
+                    Console.WriteLine($"Current generation number: {ga.GenerationsNumber}");
+                if (ga.BestChromosome.Fitness > oldFitness)
+                {
+                    oldFitness = ga.BestChromosome.Fitness.Value;
+                    Console.WriteLine($"Current fitness: {ga.BestChromosome.Fitness}");
+                }
+
+            };
+            Console.WriteLine("=================================================");
 
             ga.Start();
-
-            var bestChromosome = ga.BestChromosome as Test;
+            Test bestChromosome = ga.BestChromosome as Test;
 
             return bestChromosome;
         }

@@ -54,7 +54,6 @@ namespace DataAccess
             var result = questions.Where(q => q.ContainsDomain(domainId)).ToList();
             return result;
         }
-
         public List<Question> GetQuestionsWhichContainDomains(List<int> domainIds)
         {
             List<Question> result = new List<Question>();
@@ -64,7 +63,6 @@ namespace DataAccess
             }
             return result.Distinct().ToList();
         }
-
         public List<Question> GetQuestionsHarderThen(Question question)
         {
             var result = questions.Where(q => q.GetOverallDifficulty() >= question.GetOverallDifficulty()).ToList();
@@ -89,7 +87,6 @@ namespace DataAccess
             var result = questions.Where(q => q.ContainsDomain(domainId) && q.GetDifficultyForDomain(domainId) == difficulty).ToList();
             return result;
         }
-
 
         public List<Question> GetAllQuestions()
         {
@@ -158,7 +155,6 @@ namespace DataAccess
                 }
                 questions.Add(new Question(i, $"Pitanje {i}", difficulties));
             }
-
         }
         #endregion
     }
