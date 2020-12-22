@@ -7,6 +7,7 @@ using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
+using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 
@@ -35,7 +36,7 @@ namespace Logic
                 sum += q.GetOverallDifficulty();
             }
 
-              
+
 
             Console.WriteLine($"Adam chromosome overall difficulty: {sum}");
 
@@ -49,29 +50,42 @@ namespace Logic
             // Termination => Ima vec,koristi se OR, max 1000 generacija ili zadovoljena fitness funkcija
 
 
-            var population = new TestPopulation(5, 50, t);
+            var population = new TestPopulation(15, 50, t);
 
             // Kolko odgovara, ovde samo uzme ukupnu tezinu testa i vrati je
 
-            Console.WriteLine("Unesite najmanju tezinu:");
-            double tezina = Convert.ToDouble(Console.ReadLine());
+            //Console.WriteLine("Unesite najmanju tezinu:");
+            //double tezina = Convert.ToDouble(Console.ReadLine());
+
+            //1 - Nizovi
+            //2 - Algoritmi
+            //3 - Funkcije
+            //4 - Fajlovi
+            //5 - Matrice
 
 
-            var fitness = new TestFitness(tezina);
-            var selection = new TournamentSelection();
+
+            var fitness = new TestFitness(new List<int> { 1, 2, 3, 4, 5 }, new List<float> { 0.6f, 0.2f, 0.2f, 0.4f, 0.2f } , new List<int> { 3, 2, 5 }, 0);
+            var selection = new EliteSelection();
             var crossover = new TestCrossover();
             var mutation = new TestMutation();
 
 
-            var termination = new AndTermination(new ITermination[] { new FitnessThresholdTermination(tezina),new GenerationNumberTermination(1000) });
-            var ga = new GeneticAlgorithm(
-                            population,
-                            fitness,
-                            selection,
-                            crossover,
-                            mutation);
 
+            var termination = new AndTermination(new ITermination[] { new FitnessStagnationTermination(500), new GenerationNumberTermination(1000) }) ;
+            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
+            
             ga.Termination = termination;
+
+            ga.GenerationRan += (sender, arg) =>
+            {
+                //Console.WriteLine("Trenutni najbolji test:");
+                //Test test = ga.BestChromosome as Test;
+                //Console.WriteLine(test.ToString());
+                Console.WriteLine($"Trenutni fitness: {ga.BestChromosome.Fitness}");
+
+            };
+
 
             ga.Start();
 

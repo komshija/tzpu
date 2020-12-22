@@ -4,12 +4,14 @@ using GeneticSharp.Domain.Crossovers;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+using MiSe.Shuffle;
 
 namespace Logic
 {
     class TestCrossover : CrossoverBase
     {
-        public TestCrossover(int parentsNumber = 2,int childrenNumber = 1) : base(parentsNumber,childrenNumber)
+        public TestCrossover(int parentsNumber = 10, int childrenNumber = 10) : base(parentsNumber, childrenNumber)
         {
 
         }
@@ -17,19 +19,84 @@ namespace Logic
         protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
         {
             List<IChromosome> tests = new List<IChromosome>();
-            
-            Test t1 = parents[0] as Test;
-            Test t2 = parents[1] as Test;
+            Random rnd = new Random();
+            // Kombinuje testove koji su izabrani za roditelje i pravi decu
 
-            List<Question> questions = new List<Question>();
+            //Od svakog roditelja prvog roditelja uzme 60%
+            //A od ostalih kombinuje ostatak
 
-            for(int i = 0; i < Convert.ToInt32((double)t1.Length * 0.6); i++)
-                questions.Add(t1.questions[i]);
+            parents = parents.OrderBy(p => p.Fitness).ToList();
 
-            for (int i = 0; i < Convert.ToInt32((double)t2.Length * 0.4); i++)
-                questions.Add(t2.questions[i]);
+            int gotovaDeca = 0;
 
-            Test result = new Test(questions,t1.Length);
+            List<Question> allQuestions = new List<Question>();
+            foreach (var p in parents)
+            {
+                allQuestions.AddRange((p as Test).questions);
+            }
+            allQuestions = allQuestions.Distinct().ToList();
+
+            /*
+            while (gotovaDeca != ChildrenNumber)
+            {
+                List<Question> pitanjaDete = new List<Question>(parents[0].Length);
+
+                Test prvi = parents.FirstOrDefault() as Test;
+                parents.Remove(prvi);
+
+                for (int i = 0; i < Convert.ToInt32((double)prvi.Length * 0.6); i++)
+                    pitanjaDete.Add(prvi.questions[i]);
+
+                pitanjaDete = pitanjaDete.Distinct().ToList();
+
+                int indexRoditelj = 0;
+                int indexPitanje = 0;
+                while (pitanjaDete.Count != parents[0].Length)
+                {
+                    Test roditelj = parents[indexRoditelj] as Test;
+                    pitanjaDete.Add(roditelj.questions[indexPitanje]);
+                    indexPitanje++;
+                    if (indexPitanje == parents[0].Length)
+                    {
+                        indexPitanje = 0;
+                        indexRoditelj++;
+                    }
+                }
+
+                Test potencijalni = new Test(pitanjaDete, parents[0].Length);
+
+                Random r = new Random();
+                while (potencijalni.HasDuplicate())
+                {
+                    pitanjaDete = pitanjaDete.Distinct().ToList();
+                    pitanjaDete.Add(allQuestions[r.Next(allQuestions.Count)]);
+                }
+                gotovaDeca++;
+            }
+            */
+
+            while (gotovaDeca != ChildrenNumber)
+            {
+                List<Question> pitanjaDete = new List<Question>(parents[0].Length);
+                // Shuffling algoritam
+                ShuffleOps.ShuffleInPlace<Question>(allQuestions, new Random());
+
+                for (int i = 0; i < parents[0].Length; i++)
+                    pitanjaDete.Add(allQuestions[i]);
+
+                Test potencijalni = new Test(pitanjaDete, parents[0].Length);
+                
+                while(potencijalni.HasDuplicate())
+                {
+                    pitanjaDete = pitanjaDete.Distinct().ToList();
+                    ShuffleOps.ShuffleInPlace<Question>(allQuestions, new Random());
+                    pitanjaDete.Add(allQuestions[0]);
+                    potencijalni = new Test(pitanjaDete, parents[0].Length);
+                }
+
+                tests.Add(potencijalni);
+                gotovaDeca++;
+            }
 
             return tests;
         }

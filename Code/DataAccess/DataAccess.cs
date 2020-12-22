@@ -125,6 +125,40 @@ namespace DataAccess
                 questions.Add(new Question(i, $"Pitanje {i}", difficulties));
             }
 
+            // Two Domains 250
+            for (int i = 1000 ; i < 1000 + NumOfQuestions; i++)
+            {
+                int numOfDomains = 2; // random oblasti od 1 do 5
+                List<Difficulty> difficulties = new List<Difficulty>(numOfDomains);
+                for (int j = 0; j < numOfDomains; j++)
+                {
+                    int domainId = 1 + rnd.Next(5);
+                    if (!difficulties.Exists(d => d.DomainID == domainId))
+                    {
+                        int domainDifficulty = 1 + rnd.Next(5);
+                        difficulties.Add(new Difficulty(domainId, namesOfDomains[domainId], domainDifficulty));
+                    }
+                }
+                questions.Add(new Question(i, $"Pitanje {i}", difficulties));
+            }
+
+            // Single Domain 250
+            for (int i = 1250; i < 1250 + NumOfQuestions; i++)
+            {
+                int numOfDomains = 1; // random oblasti od 1 do 5
+                List<Difficulty> difficulties = new List<Difficulty>(numOfDomains);
+                for (int j = 0; j < numOfDomains; j++)
+                {
+                    int domainId = 1 + rnd.Next(5);
+                    if (!difficulties.Exists(d => d.DomainID == domainId))
+                    {
+                        int domainDifficulty = 1 + rnd.Next(5);
+                        difficulties.Add(new Difficulty(domainId, namesOfDomains[domainId], domainDifficulty));
+                    }
+                }
+                questions.Add(new Question(i, $"Pitanje {i}", difficulties));
+            }
+
         }
         #endregion
     }

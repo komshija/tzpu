@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace DataAccess
 {
@@ -20,28 +21,38 @@ namespace DataAccess
         {
             IDataAccess da = DataAccess.GetInstance();
             List<Question> questionsNova = new List<Question>();
+            Test result = null;
 
-            foreach (var existingQuestion in questions)
+            do
             {
-                bool dodato = false;
-                do
+                bool nedovoljnoPitanja = true;
+                while (nedovoljnoPitanja)
                 {
-                    double tolerance = 2;
-                    var sameQ = da.GetQuestionsByOverallDifficulty(existingQuestion.GetOverallDifficulty(), tolerance);
-                    dodato = sameQ.Count > 0;
-                    
-                    if (dodato)
+
+
+                    foreach (var existingQuestion in questions)
+                    {
+
+                        var sameQ = da.GetQuestionsWhichContainDomains(existingQuestion.GetDomainIds());
+
                         questionsNova.Add(sameQ[new Random().Next(sameQ.Count)]);
-                    else
-                        tolerance += 0.5;
+                        questionsNova = questionsNova.Distinct().ToList();
+
+                        if (questionsNova.Count == this.Length) {
+                            nedovoljnoPitanja = false;
+                            break;
+                        }
+                    }
                 }
-                while (!dodato);
-
+                result = new Test(questionsNova, Length);
             }
+            while (result.HasDuplicate());
 
 
-            return new Test(questionsNova, Length);
+
+            return result;
         }
+
 
         public override Gene GenerateGene(int geneIndex)
         {
@@ -64,6 +75,52 @@ namespace DataAccess
             result.AppendLine($"Overall difficulty sum: {GetSumDiff()}");
             return result.ToString();
         }
-        
+
+        public int QuestionsCoitansDomain(int domainId)
+        {
+            int res = 0;
+            foreach (var q in questions)
+            {
+                if (q.ContainsDomain(domainId))
+                    res++;
+            }
+            return res;
+        }
+        public int QuestionsDomainDifficulty(int domainId, int difficulty)
+        {
+            int res = 0;
+            foreach (var q in questions)
+            {
+                if (q.GetDifficultyForDomain(domainId) == difficulty)
+                    res++;
+            }
+            return res;
+        }
+
+        public float GetDomainAmount(int domainId)
+        {
+            float result = 0;
+            foreach (var q in questions)
+            {
+                if (q.ContainsDomain(domainId))
+                    result += 1;
+            }
+            result /= questions.Count;
+
+            return result;
+        }
+
+        public bool HasDuplicate()
+        {
+            bool duplikat = false;
+            if (questions.Count < Length)
+                duplikat = true;
+            for (int i = 0; i < questions.Count && !duplikat; i++)
+                for (int j = i + 1; j < questions.Count; j++)
+                    if (questions[i].Id == questions[j].Id)
+                        duplikat = true;
+            return duplikat;
+        }
+
     }
 }

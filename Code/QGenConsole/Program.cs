@@ -24,7 +24,14 @@ namespace QGenConsole
 
             var gen = new Logic.GeneticAlgorithmUse();
             var test = gen.UseAlgorithm();
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Najbolji test:");
+            Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine(test.ToString());
+            Console.WriteLine($"Trenutni fitness: {test.Fitness}");
 
         }
     }

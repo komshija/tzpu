@@ -63,7 +63,7 @@ namespace DataAccess
             if(obj is Question)
             {
                 Question q = (Question)obj;
-                return q.GetOverallDifficulty() == this.GetOverallDifficulty();
+                return q.id == this.id;
             }
             return false;
         }
