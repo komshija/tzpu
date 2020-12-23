@@ -53,7 +53,7 @@ namespace DataAccess
         {
             char tab = id > 1000 ? '\t' : ' ';
             StringBuilder s = new StringBuilder($"{id} :: {tab}");
-            foreach(Difficulty d in difficulties)
+            foreach(Difficulty d in difficulties.OrderBy(x => x.DomainID))
                 s.Append(d.ToString() + "\t");
             //s.Append($" :: Overall Diff : {this.GetOverallDifficulty()}");
             return s.ToString();
@@ -97,6 +97,13 @@ namespace DataAccess
         public bool ContainsDomain(int _domainId)
         {
             return difficulties.Exists(x => x.DomainID == _domainId);
+        }
+
+        public bool HaveAllDomains(List<int> domains)
+        {
+            List<int> counterDomains = DataAccess.GetInstance().GetAllDomains().ToList().Except(domains).ToList();
+            bool result = difficulties.All(d => domains.Contains(d.DomainID) && !counterDomains.Contains(d.DomainID));
+            return result;
         }
 
         public List<int> GetDomainIds()

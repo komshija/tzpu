@@ -21,7 +21,7 @@ namespace Logic
             Random r = new Random(10);
             IDataAccess dataAccess = DataAccess.DataAccess.GetInstance();
 
-            int Test_Lenght = 10;
+            int Test_Lenght = 5;
 
             List<Question> qs = new List<Question>();
 
@@ -30,23 +30,17 @@ namespace Logic
 
 
 
-            Test t = new Test(qs, Test_Lenght);
-
+            Test adamTest = new Test(qs, Test_Lenght);
+            /*
             Console.WriteLine("=================== ADAM TEST ===================");
-            Console.WriteLine(t.ToString());
+            Console.WriteLine(adamTest);
             Console.WriteLine("=================================================");
             Console.WriteLine();
             Console.WriteLine("Starting genetic algorithm...");
             Console.WriteLine();
             Console.WriteLine("=================================================");
             Console.WriteLine();
-
-
-
-
-            //Inicjalno na osnovu test-a kreira t kreira 15 testa koja su slicna 
-            //Maksimalno u generaciji moze da ima 50 testa i od njih bira najbolji
-            var population = new TestPopulation(15, 50, t);
+            */
 
             //1 - Nizovi
             //2 - Algoritmi
@@ -56,32 +50,72 @@ namespace Logic
 
             // Ovi parametri se podesavaju sta se trazi da vrati
             // Oblasti po ID-jevima koje treba da uvrsti
-            List<int> oblasti = new List<int> { 1, 2, 3, 4, 5 };
+            List<int> oblasti = new List<int> { 1, 2, 3 };
+
             // Zastupljenost po oblastima koja odgovara poziciji gore
-            List<float> zastupljenost = new List<float> { 0.6f, 0.2f, 0.2f, 0.4f, 0.2f };
+            List<double> zastupljenost = new List<double> { 0.6, 0.2, 0.2 };
+
             // Tezine za oblasti
-            List<int> tezine = new List<int> { 3, 2, 5 ,4 };
+            List<int> tezine = new List<int> { 3, 4 };
+
+            var fitness = new TestFitness(oblasti, zastupljenost, tezine, 0);
 
 
 
 
-            var fitness = new TestFitness(oblasti, zastupljenost, tezine); 
-            // Selekcija => Bira najbolji iz generacije
+
+
+
+            /*
+             * Nekako da se napravi da inicijalna generacija sadrzi sva pitanja koja imaju te zastupljenosti 
+             * npr ako treba na test da ima 0.5 neke oblasti
+             * Inicijalna populacija da ima pitanja koja moze da imaju max zastupljenost te oblasti od 0.5 na celom testu
+             * 
+             * 
+             * */
+
+
+
+            //Inicjalno kreira 10 test-a nasumicno 
+            //Maksimalno u generaciji moze da ima 50 testa i od njih bira najbolji
+
+            var population = new TestPopulation(10, 50, adamTest, oblasti);
+
+
+            // Selekcija => Bira najbolji iz generacije tj. onaj koji ima najveci fitness
             ISelection selection = new EliteSelection();
 
-            // Crossover => Shuffle crossover, od 10 roditelj dobijamo 10 deteta koja su unikatna i ne ponavljaju se
-            ICrossover crossover = new TestCrossover();
+
+            // Crossover => TwoPoint 
+            /*
+             * parent1 = (1 2 3 4 5 6)
+             * parent2 = (7 8 9 10 11 12)
+             * 
+             * i = 2 j = 5
+             * child1 = (1 2 9 10 11 6)
+             * child2 = (7 8 3 4 5 12)
+             * 
+            */
+            ICrossover crossover = new TwoPointCrossover();
+
 
             // Menjamo jedno pitanje nasumicnim pitanjem iz baze podataka
-            IMutation mutation = new TestMutation();   
+            IMutation mutation = new TestMutation(oblasti);
+
 
             // Uslov za prekid genetskog algoritma
-            // 1. Kad fitness stagnira, tj 500 generacije za redom daju isti fitness 
+            // 1. Kad fitness stagnira, tj 150 generacije za redom daju isti fitness 
             // 2. Ako napravimo 1000 generacija
-            ITermination termination = new OrTermination(new ITermination[] { new FitnessStagnationTermination(250), new GenerationNumberTermination(1000) }) ;
+            ITermination termination = new OrTermination(new ITermination[] { new FitnessStagnationTermination(400),
+                                                                              new GenerationNumberTermination(1000) });
+
+
+
             GeneticAlgorithm ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
             {
-                Termination = termination
+                Termination = termination,
+                CrossoverProbability = 0.9f,
+                MutationProbability = 0.4f
             };
 
             Console.WriteLine("Fitness change:");
@@ -94,7 +128,7 @@ namespace Logic
                 if (ga.BestChromosome.Fitness > oldFitness)
                 {
                     oldFitness = ga.BestChromosome.Fitness.Value;
-                    Console.WriteLine($"Current fitness: {ga.BestChromosome.Fitness}");
+                    Console.WriteLine($"Current fitness: {ga.BestChromosome.Fitness} for generation : {ga.GenerationsNumber}");
                 }
 
             };

@@ -10,9 +10,11 @@ namespace Logic
     public class TestMutation : MutationBase
     {
         IDataAccess dataAccess;
-        public TestMutation()
+        List<int> domains;
+        public TestMutation(List<int> domains)
         {
             dataAccess = DataAccess.DataAccess.GetInstance();
+            this.domains = domains;
         }
 
         protected override void PerformMutate(IChromosome chromosome, float probability)
@@ -22,8 +24,11 @@ namespace Logic
             {
                 var test = chromosome as Test;
                 int index = r.Next(test.questions.Count);
-                int id = 1 + r.Next(1000);
-                test.questions[index] = dataAccess.GetQuestionById(id);
+
+                var possibleQuesitons = dataAccess.GetQuestionsWhichContainDomains(domains);
+                int qIndex = r.Next(possibleQuesitons.Count);
+                
+                test.questions[index] = possibleQuesitons[qIndex];
             }
         }
     }

@@ -57,10 +57,9 @@ namespace DataAccess
         public List<Question> GetQuestionsWhichContainDomains(List<int> domainIds)
         {
             List<Question> result = new List<Question>();
-            foreach (int domainId in domainIds)
-            {
-                result.AddRange(questions.Where(q => q.ContainsDomain(domainId)).ToList());
-            }
+
+            result.AddRange(questions.Where(q => q.HaveAllDomains(domainIds) && q.Difficulties.Count <= domainIds.Count).ToList());
+
             return result.Distinct().ToList();
         }
         public List<Question> GetQuestionsHarderThen(Question question)
@@ -118,12 +117,15 @@ namespace DataAccess
                         int domainDifficulty = 1 + rnd.Next(5);
                         difficulties.Add(new Difficulty(domainId, namesOfDomains[domainId], domainDifficulty));
                     }
+                    else
+                        j--;
                 }
+                difficulties = difficulties.OrderBy(x => x.DomainID).ToList();
                 questions.Add(new Question(i, $"Pitanje {i}", difficulties));
             }
 
             // Two Domains 250
-            for (int i = 1000 ; i < 1000 + NumOfQuestions; i++)
+            for (int i = 1000 ; i < NumOfQuestions + 250; i++)
             {
                 int numOfDomains = 2; // random oblasti od 1 do 5
                 List<Difficulty> difficulties = new List<Difficulty>(numOfDomains);
@@ -135,12 +137,15 @@ namespace DataAccess
                         int domainDifficulty = 1 + rnd.Next(5);
                         difficulties.Add(new Difficulty(domainId, namesOfDomains[domainId], domainDifficulty));
                     }
+                    else
+                        j--;
                 }
+                difficulties = difficulties.OrderBy(x => x.DomainID).ToList();
                 questions.Add(new Question(i, $"Pitanje {i}", difficulties));
             }
 
             // Single Domain 250
-            for (int i = 1250; i < 1250 + NumOfQuestions; i++)
+            for (int i = 1250; i < NumOfQuestions + 500; i++)
             {
                 int numOfDomains = 1; // random oblasti od 1 do 5
                 List<Difficulty> difficulties = new List<Difficulty>(numOfDomains);
@@ -152,9 +157,17 @@ namespace DataAccess
                         int domainDifficulty = 1 + rnd.Next(5);
                         difficulties.Add(new Difficulty(domainId, namesOfDomains[domainId], domainDifficulty));
                     }
+                    else
+                        j--;
                 }
+                difficulties = difficulties.OrderBy(x => x.DomainID).ToList();
                 questions.Add(new Question(i, $"Pitanje {i}", difficulties));
             }
+        }
+
+        public List<int> GetAllDomains()
+        {
+            return new List<int> { 1, 2, 3, 4, 5 };
         }
         #endregion
     }

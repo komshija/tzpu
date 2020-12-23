@@ -12,47 +12,53 @@ namespace Logic
         //ovde u konstruktor se zadaju parametri sta je dobar test, to treba smislimo
 
         List<int> oblasti;
-        List<float> zastupljenost;
+        List<double> zastupljenost;
         List<int> tezine;
+        double tolerance;
         int questionsNumber;
-        public TestFitness(List<int> oblasti, List<float> zastupljenost, List<int> tezine)
+        public TestFitness(List<int> oblasti, List<double> zastupljenost, List<int> tezine,double tolerance)
         {
             this.oblasti = oblasti;
             this.tezine = tezine;
             this.zastupljenost = zastupljenost;
+            this.tolerance = tolerance;
             questionsNumber = oblasti.Count;
         }
         public double Evaluate(IChromosome chromosome)
         {
             //Test t koji se procenjuje
             Test t = chromosome as Test;
-
-
             double fitness = 0;
 
-            int count = 0;
-            double tolerance = 0.1f;
-            double domainAmountCoef = 1f;
+            List<double> p = new List<double> { 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1 };
 
-            //Ovo lepo radi, vraca testove u kojima su zastupljena tacno zastupljena pitanja
+            double count = 0;
+            //double ukupnoOdstupanje = 0;
+
+            //for za sve zadate parametre
             for (int i = 0; i < questionsNumber; i++)
             {
-                float domainAmount = t.GetDomainAmount(oblasti[i]);
-                if (zastupljenost[i] == 0 && domainAmount == 0)
+                double domainAmount = t.GetDomainAmount(oblasti[i]);
+                //Question question = t.GetGene(i).Value as Question;
+
+                // Mora se smisli da se izracuna odstupanje od trazene tezine
+                // Prosecna vrednost ne daje bas okej rezultate
+
+                //double razlika = tezine[i];// - domainDifficulty;
+
+                foreach (var am in p)
                 {
-                    count++;
+                    if (domainAmount >= zastupljenost[i] * am)
+                    {
+                        count += (domainAmount * 100);
+                    }
                 }
-                else if (domainAmount <= zastupljenost[i] + tolerance && domainAmount >= zastupljenost[i] - tolerance)
-                {
-                    count++;
-                    domainAmountCoef += 0.5;
-                }
-                else
-                    domainAmountCoef -= 0.5;
+
 
 
             }
-            fitness += Convert.ToDouble(count) * domainAmountCoef;
+
+            fitness = count / Convert.ToDouble(questionsNumber);
 
             ////Proverava da li oblasti  imaju tezine
             //int brojOblastiKojeImajuTrazenuTezinu = t.QuestionsDomainDifficulty(oblasti[i], tezine[i]);

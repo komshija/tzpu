@@ -70,5 +70,7 @@ namespace DataAccess
         /// </summary>
         /// <returns></returns>
         List<Question> GetAllQuestions();
+
+        List<int> GetAllDomains();
     }
 }

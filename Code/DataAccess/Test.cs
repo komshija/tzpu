@@ -20,26 +20,21 @@ namespace DataAccess
 
         public override IChromosome CreateNew()
         {
+            return new Test(questions, Length); ;
+        }
+        
+        public IChromosome GenerateRandomTest(List<int> oblasti)
+        {
             IDataAccess da = DataAccess.GetInstance();
             List<Question> questionsNova = new List<Question>();
             Test result = null;
             Random r = new Random();
             do
             {
-                //Uzme polovinu slicnih pitanja nalik na trenutna pitanja 
-                foreach (var existingQuestion in ShuffleOps.ShuffleCopy<Question>(questions,r).Take(this.Length / 2))
-                {
-                    var sameQ = da.GetQuestionsWhichContainDomains(existingQuestion.GetDomainIds());
-                    questionsNova.Add(sameQ[r.Next(sameQ.Count)]);
-                }
+                //Bira iz banke nasumicno pitanja samo koja sadrze te oblasti
+                var questionsDomain = da.GetQuestionsWhichContainDomains(oblasti);
 
-                //Ostatk pitanja uzme iz celokupne banke nasumicno
-                questionsNova.AddRange(ShuffleOps.ShuffleCopy<Question>(da.GetAllQuestions(), r).Take(this.Length));
-
-                questionsNova = questionsNova.Distinct().ToList();
-                ShuffleOps.ShuffleInPlace<Question>(questionsNova, r);
-                questionsNova = questionsNova.Take(Length).ToList();
-
+                questionsNova.AddRange(ShuffleOps.ShuffleCopy<Question>(questionsDomain, r).Take(this.Length - questionsNova.Count));
                 result = new Test(questionsNova, Length);
             }
             while (result.HasDuplicate());
@@ -50,7 +45,7 @@ namespace DataAccess
 
         public override Gene GenerateGene(int geneIndex)
         {
-            return new Gene(questions[geneIndex].GetOverallDifficulty());
+            return new Gene(questions[geneIndex]);
         }
 
         public double GetSumDiff()
@@ -66,7 +61,7 @@ namespace DataAccess
             StringBuilder result = new StringBuilder();
             foreach (var q in questions)
                 result.AppendLine(q.ToString());
-            result.AppendLine($"Overall difficulty sum: {GetSumDiff()}");
+           // result.AppendLine($"Overall difficulty sum: {GetSumDiff()}");
             return result.ToString();
         }
 
@@ -91,16 +86,18 @@ namespace DataAccess
             return res;
         }
 
-        public float GetDomainAmount(int domainId)
+        /// <summary>
+        /// Vraca onako kao sto smo pitali, celokupnu zastupljenost oblasti na testu.
+        /// </summary>
+        /// <param name="domainId"></param>
+        /// <returns></returns>
+        public double GetDomainAmount(int domainId)
         {
-            float result = 0;
+            double questionAmount = 1 / Convert.ToDouble(Length);
+            double result = 0;
             foreach (var q in questions)
-            {
                 if (q.ContainsDomain(domainId))
-                    result += 1;
-            }
-            result /= questions.Count;
-
+                    result += questionAmount / Convert.ToDouble(q.Difficulties.Count);
             return result;
         }
 
