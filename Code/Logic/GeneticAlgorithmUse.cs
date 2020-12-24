@@ -31,40 +31,41 @@ namespace Logic
 
 
             Test adamTest = new Test(qs, Test_Lenght);
-            /*
-            Console.WriteLine("=================== ADAM TEST ===================");
-            Console.WriteLine(adamTest);
-            Console.WriteLine("=================================================");
-            Console.WriteLine();
-            Console.WriteLine("Starting genetic algorithm...");
-            Console.WriteLine();
-            Console.WriteLine("=================================================");
-            Console.WriteLine();
-            */
 
-            //1 - Nizovi
-            //2 - Algoritmi
-            //3 - Funkcije
-            //4 - Fajlovi
-            //5 - Matrice
+
+            //0 - Nizovi Lako
+            //1 - Algoritmi Lako
+            //2 - Funkcije Lako
+            //3 - Fajlovi Lako
+            //4 - Matrice Lako
+
+            //5 = 0 + 5 - Nizovi Srednje
+            //6 = 1 + 5 - Algoritmi Srednje
+            //7 = 2 + 5 - Funkcije Srednje
+            //8 = 3 + 5 - Fajlovi Srednje
+            //9 = 4 + 5 - Matrice Srednje
+
+            //10 = 0 + 2*5 - Nizovi Tesko
+            //11 = 1 + 2*5 - Algoritmi Tesko
+            //12 = 2 + 2*5 - Funkcije Tesko
+            //13 = 3 + 2*5 - Fajlovi Tesko
+            //14 = 4 + 2*5 - Matrice Tesko
 
             // Ovi parametri se podesavaju sta se trazi da vrati
             // Oblasti po ID-jevima koje treba da uvrsti
-            List<int> oblasti = new List<int> { 1, 2, 3 };
+            List<int> oblasti = new List<int> { 1, 6, 7, 14 };
+            int num = DataAccess.DataAccess.GetInstance().GetQuestionsWhichContainDomains(oblasti).Count;
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine($"Broj pitanja koja sadrze samo ove oblasti {num}");
+            Console.WriteLine();
+            Console.WriteLine();
 
             // Zastupljenost po oblastima koja odgovara poziciji gore
-            List<double> zastupljenost = new List<double> { 0.6, 0.2, 0.2 };
-
-            // Tezine za oblasti
-            List<int> tezine = new List<int> { 3, 4 };
-
-            var fitness = new TestFitness(oblasti, zastupljenost, tezine, 0);
+            List<double> zastupljenost = new List<double> { 0.4, 0.2, 0.2, 0.2 };
 
 
-
-
-
-
+            var fitness = new TestFitness(oblasti, zastupljenost, 0);
 
             /*
              * Nekako da se napravi da inicijalna generacija sadrzi sva pitanja koja imaju te zastupljenosti 
@@ -76,11 +77,10 @@ namespace Logic
 
 
 
-            //Inicjalno kreira 10 test-a nasumicno 
-            //Maksimalno u generaciji moze da ima 50 testa i od njih bira najbolji
+            //Inicjalno kreira 20 test-a nasumicno 
+            //Maksimalno u generaciji moze da ima 100 testa i od njih bira najbolji
 
-            var population = new TestPopulation(10, 50, adamTest, oblasti);
-
+            var population = new TestPopulation(20, 100, adamTest, oblasti);
 
             // Selekcija => Bira najbolji iz generacije tj. onaj koji ima najveci fitness
             ISelection selection = new EliteSelection();
@@ -96,7 +96,8 @@ namespace Logic
              * child2 = (7 8 3 4 5 12)
              * 
             */
-            ICrossover crossover = new TwoPointCrossover();
+            //ICrossover crossover = new TwoPointCrossover();
+            ICrossover crossover = new OnePointCrossover();
 
 
             // Menjamo jedno pitanje nasumicnim pitanjem iz baze podataka
@@ -106,8 +107,9 @@ namespace Logic
             // Uslov za prekid genetskog algoritma
             // 1. Kad fitness stagnira, tj 150 generacije za redom daju isti fitness 
             // 2. Ako napravimo 1000 generacija
-            ITermination termination = new OrTermination(new ITermination[] { new FitnessStagnationTermination(400),
-                                                                              new GenerationNumberTermination(1000) });
+            //ITermination termination = new OrTermination(new ITermination[] { new FitnessThresholdTermination(30),
+            //                                                                  new GenerationNumberTermination(1000) });
+            ITermination termination = new FitnessThresholdTermination(10*oblasti.Count);
 
 
 
@@ -123,8 +125,8 @@ namespace Logic
             double oldFitness = 0;
             ga.GenerationRan += (sender, arg) =>
             {
-                if (ga.GenerationsNumber % 100 == 0)
-                    Console.WriteLine($"Current generation number: {ga.GenerationsNumber}");
+                //if (ga.GenerationsNumber % 100 == 0)
+                //    Console.WriteLine($"Current generation number: {ga.GenerationsNumber}");
                 if (ga.BestChromosome.Fitness > oldFitness)
                 {
                     oldFitness = ga.BestChromosome.Fitness.Value;

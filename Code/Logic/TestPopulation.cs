@@ -25,9 +25,7 @@ namespace Logic
             var chromosomes = new List<IChromosome>();
             for (int i = 0; i < MinSize; i++)
             {
-                
-                var c = (AdamChromosome as Test).GenerateRandomTest(oblasti);
-
+                var c = DataAccess.DataAccess.GetInstance().GenerisiRandomTestSaOblastima(oblasti,AdamChromosome.Length);
                 if (c == null)
                 {
                     throw new InvalidOperationException("The Adam chromosome's 'CreateNew' method generated a null chromosome. This is a invalid behavior, please, check your chromosome code.");

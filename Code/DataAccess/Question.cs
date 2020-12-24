@@ -51,8 +51,14 @@ namespace DataAccess
 
         public override string ToString()
         {
-            char tab = id > 1000 ? '\t' : ' ';
-            StringBuilder s = new StringBuilder($"{id} :: {tab}");
+            StringBuilder s = new StringBuilder();
+            if (id < 100)
+                s.Append($"{id}   :: ");
+            else if(id <1000)
+                s.Append($"{id}  :: ");
+            else
+                s.Append($"{id} :: ");
+
             foreach(Difficulty d in difficulties.OrderBy(x => x.DomainID))
                 s.Append(d.ToString() + "\t");
             //s.Append($" :: Overall Diff : {this.GetOverallDifficulty()}");
@@ -80,29 +86,21 @@ namespace DataAccess
 
         #region Methods
 
-        public int GetDifficultyForDomain(int _domainID)
-        {
-            var result = difficulties.Where(q => q.DomainID == _domainID).SingleOrDefault();
-            if (result == null)
-                return -1;
-            return result.DomainDifficulty;
-        }
 
         public double GetOverallDifficulty()
         {
-            //Algoritam je podlozan promenama, za sad samo prosek
             return difficulties.Average(x => x.DomainDifficulty);
         }
 
-        public bool ContainsDomain(int _domainId)
+        public bool ContainsDomain(int domainId)
         {
-            return difficulties.Exists(x => x.DomainID == _domainId);
+            return difficulties.Exists(x => x.DomainID == domainId);
         }
 
         public bool HaveAllDomains(List<int> domains)
         {
-            List<int> counterDomains = DataAccess.GetInstance().GetAllDomains().ToList().Except(domains).ToList();
-            bool result = difficulties.All(d => domains.Contains(d.DomainID) && !counterDomains.Contains(d.DomainID));
+            List<int> ostaleOblasti = DataAccess.GetInstance().GetAllDomains().ToList().Except(domains).ToList();
+            bool result = difficulties.All(d => domains.Contains(d.DomainID) && !ostaleOblasti.Contains(d.DomainID));
             return result;
         }
 

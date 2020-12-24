@@ -17,18 +17,23 @@ namespace Logic
             this.domains = domains;
         }
 
+        //Proveriti..
         protected override void PerformMutate(IChromosome chromosome, float probability)
         {
             Random r = new Random();
             if (r.NextDouble() >= probability)
             {
                 var test = chromosome as Test;
-                int index = r.Next(test.questions.Count);
+                do
+                {
+                    int index = r.Next(test.questions.Count);
 
-                var possibleQuesitons = dataAccess.GetQuestionsWhichContainDomains(domains);
-                int qIndex = r.Next(possibleQuesitons.Count);
-                
-                test.questions[index] = possibleQuesitons[qIndex];
+                    var possibleQuesitons = dataAccess.GetQuestionsWhichContainDomains(domains);
+                    int qIndex = r.Next(possibleQuesitons.Count);
+
+                    test.questions[index] = possibleQuesitons[qIndex];
+                }
+                while (!test.HasDuplicate());
             }
         }
     }

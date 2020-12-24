@@ -10,16 +10,16 @@ namespace DataAccess
         public string DomainName;
         public int DomainDifficulty;
 
-        public Difficulty(int domainID,string  domainName, int domaindiff)
+        public Difficulty(int domainID,string  domainName,int domainDifficulty)
         {
             DomainID = domainID;
             DomainName = domainName;
-            DomainDifficulty = domaindiff;
+            DomainDifficulty = domainDifficulty;
         }
 
         public override string ToString()
         {
-            return $"{DomainName}::{DomainDifficulty}";
+            return $"{DomainName}";
         }
     }
 }

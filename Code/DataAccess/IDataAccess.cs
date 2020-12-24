@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GeneticSharp.Domain.Chromosomes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -70,7 +71,7 @@ namespace DataAccess
         /// </summary>
         /// <returns></returns>
         List<Question> GetAllQuestions();
-
+        IChromosome GenerisiRandomTestSaOblastima(List<int> oblasti, int Length);
         List<int> GetAllDomains();
     }
 }

@@ -14,6 +14,8 @@ namespace QGenConsole
             IDataAccess dataAccess = DataAccess.DataAccess.GetInstance();
             var questions = dataAccess.GetAllQuestions();
 
+            //foreach(var q in  questions)
+            //    Console.WriteLine(q);
 
             var gen = new Logic.GeneticAlgorithmUse();
             Test test = gen.UseAlgorithm();

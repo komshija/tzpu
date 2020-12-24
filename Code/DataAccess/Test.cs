@@ -23,32 +23,13 @@ namespace DataAccess
             return new Test(questions, Length); ;
         }
         
-        public IChromosome GenerateRandomTest(List<int> oblasti)
-        {
-            IDataAccess da = DataAccess.GetInstance();
-            List<Question> questionsNova = new List<Question>();
-            Test result = null;
-            Random r = new Random();
-            do
-            {
-                //Bira iz banke nasumicno pitanja samo koja sadrze te oblasti
-                var questionsDomain = da.GetQuestionsWhichContainDomains(oblasti);
-
-                questionsNova.AddRange(ShuffleOps.ShuffleCopy<Question>(questionsDomain, r).Take(this.Length - questionsNova.Count));
-                result = new Test(questionsNova, Length);
-            }
-            while (result.HasDuplicate());
-
-            return result;
-        }
-
-
+       
         public override Gene GenerateGene(int geneIndex)
         {
             return new Gene(questions[geneIndex]);
         }
 
-        public double GetSumDiff()
+        public double UkupnaTezinaTesta()
         {
             double sum = 0;
             foreach (var q in questions)
@@ -61,45 +42,24 @@ namespace DataAccess
             StringBuilder result = new StringBuilder();
             foreach (var q in questions)
                 result.AppendLine(q.ToString());
-           // result.AppendLine($"Overall difficulty sum: {GetSumDiff()}");
             return result.ToString();
         }
 
-        public int QuestionsCoitansDomain(int domainId)
+        //Proveriti..
+        public double ProcenatPitanjaKojaSadrzeOblast(int domainId)
         {
-            int res = 0;
-            foreach (var q in questions)
-            {
-                if (q.ContainsDomain(domainId))
-                    res++;
-            }
-            return res;
-        }
-        public int QuestionsDomainDifficulty(int domainId, int difficulty)
-        {
-            int res = 0;
-            foreach (var q in questions)
-            {
-                if (q.GetDifficultyForDomain(domainId) == difficulty)
-                    res++;
-            }
-            return res;
+            return Convert.ToDouble(questions.Count(q => q.ContainsDomain(domainId))) / Length;
         }
 
-        /// <summary>
-        /// Vraca onako kao sto smo pitali, celokupnu zastupljenost oblasti na testu.
-        /// </summary>
-        /// <param name="domainId"></param>
-        /// <returns></returns>
-        public double GetDomainAmount(int domainId)
+        //Proveriti..
+        public List<int> VratiDomeneKojeSadrziTest()
         {
-            double questionAmount = 1 / Convert.ToDouble(Length);
-            double result = 0;
-            foreach (var q in questions)
-                if (q.ContainsDomain(domainId))
-                    result += questionAmount / Convert.ToDouble(q.Difficulties.Count);
-            return result;
+            List<List<Difficulty>> sveTezine = questions.Select(x => x.Difficulties).ToList();
+            List<Difficulty> ids = new List<Difficulty>();
+            sveTezine.ForEach(lista => ids.AddRange(lista));
+            return ids.Select(x=>x.DomainID).Distinct().ToList();
         }
+      
 
         public bool HasDuplicate()
         {
