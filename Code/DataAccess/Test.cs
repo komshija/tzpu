@@ -20,7 +20,7 @@ namespace DataAccess
 
         public override IChromosome CreateNew()
         {
-            return new Test(questions, Length); ;
+            return new Test(new List<Question>(questions), Length); ;
         }
         
        
@@ -66,10 +66,8 @@ namespace DataAccess
             bool duplikat = false;
             if (questions.Count < Length)
                 duplikat = true;
-            for (int i = 0; i < questions.Count && !duplikat; i++)
-                for (int j = i + 1; j < questions.Count; j++)
-                    if (questions[i].Id == questions[j].Id)
-                        duplikat = true;
+            int distinctCount = questions.Distinct().ToList().Count;
+            duplikat = distinctCount != Length;
             return duplikat;
         }
 

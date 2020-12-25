@@ -52,6 +52,8 @@ namespace DataAccess
                 var questionsDomain = GetQuestionsWhichContainDomains(oblasti);
 
                 questionsNova.AddRange(ShuffleOps.ShuffleCopy<Question>(questionsDomain, r).Take(Length - questionsNova.Count));
+                questionsNova = questionsNova.Distinct().ToList();
+
                 result = new Test(questionsNova, Length);
             }
             while (result.HasDuplicate());
@@ -163,7 +165,7 @@ namespace DataAccess
 
                 for (int j = 0; j < numOfDomains; j++)
                 {
-                    int tezina = rnd.Next(3);
+                    int tezina = rnd.Next(10) % 3;
                     difficulties.Add(new Difficulty(domeni[j] + 5 * tezina, namesOfDomains[domeni[j] + 5 * tezina], tezina));
                 }
 
@@ -191,7 +193,7 @@ namespace DataAccess
 
                 for (int j = 0; j < numOfDomains; j++)
                 {
-                    int tezina = rnd.Next(3);
+                    int tezina = rnd.Next(10) % 3;
                     difficulties.Add(new Difficulty(domeni[j] + 5 * tezina, namesOfDomains[domeni[j] + 5 * tezina],tezina));
                 }
 
@@ -217,7 +219,7 @@ namespace DataAccess
 
                 for (int j = 0; j < numOfDomains; j++)
                 {
-                    int tezina = rnd.Next(3);
+                    int tezina = rnd.Next(10) % 3;
                     difficulties.Add(new Difficulty(domeni[j] + 5 * tezina, namesOfDomains[domeni[j] + 5 * tezina],tezina));
                 }
 
@@ -243,7 +245,7 @@ namespace DataAccess
 
                 for (int j = 0; j < numOfDomains; j++)
                 {
-                    int tezina = rnd.Next(3);
+                    int tezina = rnd.Next(10) % 3;
                     difficulties.Add(new Difficulty(domeni[j] + 5 * tezina, namesOfDomains[domeni[j] + 5 * tezina],tezina));
                 }
 
@@ -269,7 +271,7 @@ namespace DataAccess
 
                 for (int j = 0; j < numOfDomains; j++)
                 {
-                    int tezina = rnd.Next(3);
+                    int tezina = rnd.Next(10) % 3;
                     difficulties.Add(new Difficulty(domeni[j] + 5 * tezina, namesOfDomains[domeni[j] + 5 * tezina],tezina));
                 }
 
@@ -295,7 +297,7 @@ namespace DataAccess
 
                 for (int j = 0; j < numOfDomains; j++)
                 {
-                    int tezina = rnd.Next(3);
+                    int tezina = rnd.Next(10) % 3;
                     difficulties.Add(new Difficulty(domeni[j] + 5 * tezina, namesOfDomains[domeni[j] + 5 * tezina],tezina));
                 }
 

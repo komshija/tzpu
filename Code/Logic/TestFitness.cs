@@ -17,10 +17,10 @@ namespace Logic
         double tolerance;
         int brojOblasti;
 
-        public TestFitness(List<int> oblasti, List<double> zastupljenost/*, List<int> tezine*/,double tolerance)
+        public TestFitness(List<int> oblasti, List<double> zastupljenost/*, List<int> tezine*/, double tolerance)
         {
             this.oblasti = oblasti;
-           // this.tezine = tezine;
+            // this.tezine = tezine;
             this.zastupljenost = zastupljenost;
             this.tolerance = tolerance;
             brojOblasti = oblasti.Count;
@@ -28,18 +28,15 @@ namespace Logic
         public double Evaluate(IChromosome chromosome)
         {
             //Test t koji se procenjuje
-            Test t = chromosome as Test;
+            Test test = chromosome as Test;
             double fitness = 0;
 
             for (int i = 0; i < brojOblasti; i++)
             {
-                double domainAmount = t.ProcenatPitanjaKojaSadrzeOblast(oblasti[i]);
-
-                if (domainAmount == zastupljenost[i])
-                {
-                    fitness += 10;
-                }
+                double domainAmount = test.ProcenatPitanjaKojaSadrzeOblast(oblasti[i]);
+                fitness += domainAmount == zastupljenost[i] ? 1 : 0;
             }
+
 
             return fitness;
         }

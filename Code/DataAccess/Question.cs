@@ -60,7 +60,8 @@ namespace DataAccess
                 s.Append($"{id} :: ");
 
             foreach(Difficulty d in difficulties.OrderBy(x => x.DomainID))
-                s.Append(d.ToString() + "\t");
+                s.Append(d.DomainID + "\t");
+            //s.Append(d.ToString() + "\t"); ;
             //s.Append($" :: Overall Diff : {this.GetOverallDifficulty()}");
             return s.ToString();
         }
