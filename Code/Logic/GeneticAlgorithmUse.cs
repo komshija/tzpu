@@ -22,7 +22,7 @@ namespace Logic
             Random r = new Random(10);
             IDataAccess dataAccess = DataAccess.DataAccess.GetInstance();
 
-            int Test_Lenght = 10;
+            int Test_Lenght = 5;
 
             List<Question> qs = new List<Question>();
 
@@ -91,9 +91,11 @@ namespace Logic
             //List<double> zastupljenost = new List<double> { 0.6, 0.2, 0.4, 0.4 };
             */
 
+            // TRENUTNO
             List<int> oblasti = new List<int> { 3, 5, 8, 11 };
             List<double> zastupljenost = new List<double> { 0.6, 0.2, 0.4, 0.4 };
 
+            
 
             int num = DataAccess.DataAccess.GetInstance().GetQuestionsWhichContainDomains(oblasti).Count;
             Console.WriteLine($"Broj pitanja koja sadrze samo ove oblasti {num}");
@@ -119,7 +121,7 @@ namespace Logic
             //ICrossover crossover = new UniformCrossover();
             //ICrossover crossover = new ThreeParentCrossover();
             //ICrossover crossover = new PositionBasedCrossover();
-            ICrossover crossover = new TestCrossover(oblasti, zastupljenost);
+            ICrossover crossover = new TestCrossover(oblasti, zastupljenost,4,2);
 
 
             // Menjamo jedno pitanje nasumicnim pitanjem iz baze podataka
