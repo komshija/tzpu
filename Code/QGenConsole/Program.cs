@@ -74,7 +74,7 @@ namespace QGenConsole
             // TRENUTNO
             List<int> oblasti = new List<int> { 3, 5, 8, 11 };
             List<double> zastupljenost = new List<double> { 0.6, 0.2, 0.4, 0.4 };
-            int testLength = 5;
+            int testLength = 7;
 
             #endregion
 
