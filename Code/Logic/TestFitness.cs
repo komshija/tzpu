@@ -33,7 +33,7 @@ namespace Logic
 
             for (int i = 0; i < brojOblasti; i++)
             {
-                double domainAmount = test.ProcenatPitanjaKojaSadrzeOblast(oblasti[i]);
+                double domainAmount = test.BrojPitanjaKojaSadrzeOblast(oblasti[i]);
                 fitness += domainAmount == zastupljenost[i] ? 1 : 0;
             }
 

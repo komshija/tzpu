@@ -45,10 +45,42 @@ namespace DataAccess
             return result.ToString();
         }
 
-        //Proveriti..
-        public double ProcenatPitanjaKojaSadrzeOblast(int domainId)
+        public override bool Equals(object obj)
         {
-            return Convert.ToDouble(questions.Count(q => q.ContainsDomain(domainId))) / Length;
+            List<Question> pitanja = new List<Question>();
+            Test test = obj as Test;
+
+            foreach (var q in this.questions)
+            {
+                pitanja.Add(q);
+            }
+            
+            foreach (var q in test.questions)
+            {
+                pitanja.Add(q);
+            }
+
+            if (pitanja.Distinct().ToList().Count == test.questions.Count)
+                return true;
+            
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            int id = 0;
+            foreach (var q in this.questions)
+            {
+                id = (id + q.Id) % 1013;
+            }
+
+            return id;
+        }
+
+        //Proveriti..
+        public double BrojPitanjaKojaSadrzeOblast(int domainId)
+        {
+            return Convert.ToDouble(questions.Count(q => q.ContainsDomain(domainId)));
         }
 
         //Proveriti..
