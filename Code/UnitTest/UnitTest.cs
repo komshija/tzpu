@@ -43,17 +43,23 @@ namespace UnitTest
             testLength = 5;
             gen = new GeneticAlgorithmUse();
             testovi = new List<Test>();
+            
+            List<Question> pitanja = DataAccess.DataAccess.GetInstance().GetQuestionsWhichContainDomainsAndAreSelected(oblasti);
+            if (pitanja.Count != 0)
+                foreach (var p in pitanja)
+                    p.Izabrano = false;
+            
             for (int i = 0; i < 50; i++)
                 testovi.Add(gen.UseAlgorithm(oblasti,zastupljenost,testLength));
         }
         [TestMethod]
-        public void Generisano_Je_100_Testova()
+        public void Kreirano_Je_50_Testova()
         {
             testovi.RemoveAll(t => t == null);
             if (testovi.Count == 0)
                 Assert.IsTrue(false, "Lista testova je prazna!");
 
-            Assert.AreEqual(100, testovi.Count, "Nije generisano 100 testova!");
+            Assert.AreEqual(50, testovi.Count, "Nije generisano 50 testova!");
         }
 
         [TestMethod]
@@ -91,7 +97,7 @@ namespace UnitTest
         [TestMethod]
         public void Svi_Testovi_Su_Jedinstveni()
         {
-            CollectionAssert.AllItemsAreUnique(testovi,"Neki testovi su se pojavili vise puta!"); // treba se predifinise equal
+            CollectionAssert.AllItemsAreUnique(testovi,"Neki testovi su se pojavili vise puta!");
         }
 
         [TestMethod]
@@ -128,7 +134,7 @@ namespace UnitTest
                 }
             }
             int ponovljena = testovi.Count * testovi[0].questions.Count - pitanja.Distinct().ToList().Count;
-            Assert.AreEqual(0, ponovljena,"Od ukupno "+ testovi.Count * testovi[0].questions.Count + " testova, ponovilo se " + ponovljena);
+            Assert.AreEqual(0, ponovljena,"Od ukupno "+ testovi.Count * testovi[0].questions.Count + " pitanja na svim testovima, ponovilo se " + ponovljena);
         }
         [TestMethod]
         public void Iskoriscena_Su_Sva_Moguca_Pitanja_Sa_Zadatim_Oblastima()
@@ -144,7 +150,20 @@ namespace UnitTest
                 }
             }
 
-            Assert.AreEqual(svaMogucaPitanja.Count, pitanja.Distinct().ToList().Count,"Od mogucih " + svaMogucaPitanja.Count +", iskoriscena su "+ pitanja.Distinct().ToList().Count + " pitanja");
+            Assert.AreEqual(svaMogucaPitanja.Count, pitanja.Distinct().ToList().Count,"Od mogucih " + svaMogucaPitanja.Count +" pitanja , iskoriscena su "+ pitanja.Distinct().ToList().Count);
+        }
+        [TestMethod]
+        public void Nijedno_Pitanje_Na_Testovima_Nije_Null()
+        {
+            bool flag = true;
+
+            foreach (var test in testovi)
+            {
+                if (test.questions.Contains(null))
+                    flag = false;
+            }
+
+            Assert.IsTrue(flag, "Neki test ima pitanje koje je null!");
         }
     }
 }

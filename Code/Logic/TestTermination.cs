@@ -38,7 +38,7 @@ namespace Logic
                 m_stagnantGenerationsCount2 = 1;
             }
 
-            if (m_stagnantGenerationsCount2 == 1200)
+            if (m_stagnantGenerationsCount2 == 2000)
             {
                 List<Question> pitanja = DataAccess.DataAccess.GetInstance().GetQuestionsWhichContainDomainsAndAreSelected(Oblasti);
                 if (pitanja.Count != 0)
@@ -60,7 +60,7 @@ namespace Logic
 
             m_lastFitness = bestFitness;
 
-            return (m_stagnantGenerationsCount1 >= ExpectedStagnantGenerationsNumber) || (m_stagnantGenerationsCount2 >= 1200);
+            return (m_stagnantGenerationsCount1 >= ExpectedStagnantGenerationsNumber) || (m_stagnantGenerationsCount2 >= 2000);
         }
     }
 }
