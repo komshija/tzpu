@@ -30,6 +30,7 @@ namespace QGenConsole
             //13 = 3 + 2*5 - Fajlovi Tesko
             //14 = 4 + 2*5 - Matrice Tesko
             #endregion
+
             #region Test_Primeri
             /*
             // Test 1 - Nalazi brzo - Kandidat za prezentaciji
@@ -77,7 +78,6 @@ namespace QGenConsole
             int testLength = 5;
 
             #endregion
-
             var gen = new Logic.GeneticAlgorithmUse();
             Test test = gen.UseAlgorithm(oblasti,zastupljenost,testLength);
 
@@ -90,8 +90,6 @@ namespace QGenConsole
             }
             else
                 Console.WriteLine("Nemoguce naci trazeni test!");
-            //             */
-
 
         }
     }

@@ -9,32 +9,27 @@ namespace DataAccess
 {
     public class Test : ChromosomeBase
     {
-
+        #region Attributes
         public List<Question> questions { get; protected set; }
+        #endregion
 
+        #region Constructors
         public Test(List<Question> qs, int lenght) : base(lenght)
         {
             questions = qs;
             this.CreateGenes();
         }
+        #endregion
 
+        #region Overrides
         public override IChromosome CreateNew()
         {
             return new Test(new List<Question>(questions), Length); ;
         }
-        
-       
+
         public override Gene GenerateGene(int geneIndex)
         {
             return new Gene(questions[geneIndex]);
-        }
-
-        public double UkupnaTezinaTesta()
-        {
-            double sum = 0;
-            foreach (var q in questions)
-                sum += q.GetOverallDifficulty();
-            return sum;
         }
 
         public override string ToString()
@@ -54,7 +49,7 @@ namespace DataAccess
             {
                 pitanja.Add(q);
             }
-            
+
             foreach (var q in test.questions)
             {
                 pitanja.Add(q);
@@ -62,7 +57,7 @@ namespace DataAccess
 
             if (pitanja.Distinct().ToList().Count == test.questions.Count)
                 return true;
-            
+
             return false;
         }
 
@@ -76,14 +71,21 @@ namespace DataAccess
 
             return id;
         }
+        #endregion
 
-        //Proveriti..
+        #region Methods
+        public double UkupnaTezinaTesta()
+        {
+            double sum = 0;
+            foreach (var q in questions)
+                sum += q.GetOverallDifficulty();
+            return sum;
+        }
         public double BrojPitanjaKojaSadrzeOblast(int domainId)
         {
             return Convert.ToDouble(questions.Count(q => q.ContainsDomain(domainId)));
         }
 
-        //Proveriti..
         public List<int> VratiDomeneKojeSadrziTest()
         {
             List<List<Difficulty>> sveTezine = questions.Select(x => x.Difficulties).ToList();
@@ -103,5 +105,6 @@ namespace DataAccess
             return duplikat;
         }
 
+        #endregion
     }
 }

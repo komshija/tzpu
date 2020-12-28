@@ -40,7 +40,6 @@ namespace DataAccess
 
         #region Methods
 
-
         public IChromosome GenerisiRandomTestSaOblastima(List<int> oblasti,int Length)
         {
             List<Question> questionsNova = new List<Question>();
@@ -74,15 +73,24 @@ namespace DataAccess
 
         public List<Question> GetQuestionsWhichContainsDomain(int domainId)
         {
-            var result = questions.Where(q => q.ContainsDomain(domainId)).ToList();
+            var result = questions.Where(q => q.ContainsDomain(domainId) && !q.Izabrano).ToList();
             return result;
         }
+
         public List<Question> GetQuestionsWhichContainDomains(List<int> domainIds)
         {
             List<Question> result = new List<Question>();
-            result.AddRange(questions.Where(q => q.Difficulties.Count <= domainIds.Count && q.HaveAllDomains(domainIds) ).ToList());
+            result.AddRange(questions.Where(q => q.Difficulties.Count <= domainIds.Count && q.HaveAllDomains(domainIds) && !q.Izabrano).ToList());
             return result.Distinct().ToList();
         }
+
+        public List<Question> GetQuestionsWhichContainDomainsAndAreSelected(List<int> domainIds)
+        {
+            List<Question> result = new List<Question>();
+            result.AddRange(questions.Where(q => q.Difficulties.Count <= domainIds.Count && q.HaveAllDomains(domainIds) && q.Izabrano).ToList());
+            return result.Distinct().ToList();
+        }
+
         public List<Question> GetQuestionsHarderThen(Question question)
         {
             var result = questions.Where(q => q.GetOverallDifficulty() >= question.GetOverallDifficulty()).ToList();
@@ -305,7 +313,8 @@ namespace DataAccess
                 questions.Add(new Question(i, $"Pitanje {i}", difficulties));
             }
 
-
+            foreach (var q in questions)
+                q.Izabrano = false;
         }
 
 
