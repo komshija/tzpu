@@ -9,14 +9,14 @@ namespace UnitTest
     [TestClass]
     public class UnitTest
     {
-        GeneticAlgorithmUse gen;
-        List<Test> testovi;
-        List<int> oblasti;
-        List<double> zastupljenost;
-        int testLength;
+        protected GeneticAlgorithmUse gen;
+        protected List<Test> testovi;
+        protected List<int> oblasti;
+        protected List<double> zastupljenost;
+        protected int testLength;
 
         [TestInitialize]
-        public void Inicijalizacija()
+        public virtual void Inicijalizacija()
         {
             #region Oblasti
             //0 - Nizovi Lako
@@ -44,7 +44,7 @@ namespace UnitTest
             gen = new GeneticAlgorithmUse();
             testovi = new List<Test>();
             for (int i = 0; i < 5; i++)
-                testovi.Add(gen.UseAlgorithm(oblasti,zastupljenost,testLength));
+                testovi.Add(gen.UseAlgorithm(oblasti, zastupljenost, testLength));
         }
         [TestMethod]
         public void Generisano_Je_5_Testa()
@@ -59,14 +59,14 @@ namespace UnitTest
         [TestMethod]
         public void Nijedan_Test_Nije_Null()
         {
-            CollectionAssert.AllItemsAreNotNull(testovi,"Postoji test koji je null!");
+            CollectionAssert.AllItemsAreNotNull(testovi, "Postoji test koji je null!");
         }
         [TestMethod]
         public void Svi_Testovi_Su_Tipa_Test()
         {
             testovi.RemoveAll(t => t == null);
             if (testovi.Count == 0)
-                Assert.IsTrue(false,"Lista testova je prazna!");
+                Assert.IsTrue(false, "Lista testova je prazna!");
             else
                 CollectionAssert.AllItemsAreInstancesOfType(testovi, typeof(Test));
         }
@@ -85,7 +85,7 @@ namespace UnitTest
                 if (test.Length != 5)
                     flag = false;
             }
-            Assert.IsTrue(flag,"Lista testova je prazna!");
+            Assert.IsTrue(flag, "Lista testova je prazna!");
         }
 
         [TestMethod]
@@ -109,7 +109,7 @@ namespace UnitTest
                     flag = false;
             }
 
-            Assert.IsTrue(flag,"Lista testova je prazna!");
+            Assert.IsTrue(flag, "Lista testova je prazna!");
         }
 
         [TestMethod]
@@ -127,7 +127,7 @@ namespace UnitTest
                     pitanja.Add(q);
                 }
             }
-            Assert.AreEqual(testovi.Count * testovi[0].questions.Count, pitanja.Distinct().ToList().Count,"Na dva razlicita testa se javilo isto pitanje!");
+            Assert.AreEqual(testovi.Count * testovi[0].questions.Count, pitanja.Distinct().ToList().Count, "Na dva razlicita testa se javilo isto pitanje!");
         }
     }
 }

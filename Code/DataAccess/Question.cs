@@ -109,6 +109,15 @@ namespace DataAccess
         {
             return difficulties.Select(x => x.DomainID).ToList();
         }
+
+        public string DomainsToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (var d in difficulties)
+                stringBuilder.Append(d.DomainName + "; ");
+            return stringBuilder.ToString();
+        }
+
         #endregion
 
     }

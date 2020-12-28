@@ -73,9 +73,16 @@ namespace QGen
                 changed = false;
                 return;
             }
+
             var trackBar = sender as TrackBar;
             int tag = Convert.ToInt32(trackBar.Tag);
-            oblastZastupljenost[tag] = trackBar.Value;
+            if(GetTrackBarSum() > 10)
+            {
+                trackBar.Value = Convert.ToInt32(oblastZastupljenost[tag]);
+                return;
+            }
+            else
+                oblastZastupljenost[tag] = trackBar.Value;
 
             var points = chart_zastupljenost.Series["series_zastupljenost"].Points;
             points.Clear();
@@ -88,7 +95,9 @@ namespace QGen
 
         private void btn_kreiraj_Click(object sender, EventArgs e)
         {
+
             StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine($"Broj broj pitanja: {nUpDwn_brPitanja.Value}");
             double sum = 0;
             double odnos = 0;
             foreach (var item in oblastZastupljenost.Where(x => x.Value != 0))
@@ -104,9 +113,33 @@ namespace QGen
                 var result = MessageBox.Show(stringBuilder.ToString(),"Da li ste sigurni?",buttons: MessageBoxButtons.YesNo,icon: MessageBoxIcon.Question);
                 if (result == DialogResult.OK)
                 {
-                    //Zovi algoritem
+                    //Zovi 
+
+                    //var t = pozovi algoritam..
+
+                    //TestPreview testPreviewForm = new TestPreview(t);
+                    //testPreviewForm.ShowDialog();
+
                 }
             }
+        }
+
+
+        private int GetTrackBarSum()
+        {
+            return trackBar_lako.Value + trackBar_srednje.Value + trackBar_tesko.Value;
+        }
+
+        private void oAplikacijiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OAplikaciji oAplikacijiForm = new OAplikaciji();
+            oAplikacijiForm.ShowDialog();
+        }
+
+        private void pomocToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Uputstvo uputstvoForm = new Uputstvo();
+            uputstvoForm.Show();
         }
     }
 }

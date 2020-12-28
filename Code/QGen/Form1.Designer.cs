@@ -32,6 +32,7 @@ namespace QGen
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(glavna_forma));
             this.gBox_oblasti = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.rb_nizovi = new System.Windows.Forms.RadioButton();
@@ -39,6 +40,8 @@ namespace QGen
             this.rb_algoritmi = new System.Windows.Forms.RadioButton();
             this.rb_fajlovi = new System.Windows.Forms.RadioButton();
             this.rb_funkcije = new System.Windows.Forms.RadioButton();
+            this.nUpDwn_brPitanja = new System.Windows.Forms.NumericUpDown();
+            this.lb_BrPitanja = new System.Windows.Forms.Label();
             this.chart_zastupljenost = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.gBox_selektovana = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
@@ -56,6 +59,7 @@ namespace QGen
             this.pomocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gBox_oblasti.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nUpDwn_brPitanja)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart_zastupljenost)).BeginInit();
             this.gBox_selektovana.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -82,15 +86,19 @@ namespace QGen
             // 
             // tableLayoutPanel3
             // 
-            this.tableLayoutPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.tableLayoutPanel3.ColumnCount = 1;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Controls.Add(this.rb_nizovi, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.rb_matrice, 0, 4);
             this.tableLayoutPanel3.Controls.Add(this.rb_algoritmi, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.rb_fajlovi, 0, 3);
             this.tableLayoutPanel3.Controls.Add(this.rb_funkcije, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.nUpDwn_brPitanja, 1, 2);
+            this.tableLayoutPanel3.Controls.Add(this.lb_BrPitanja, 1, 1);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(43, 21);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 5;
@@ -99,7 +107,7 @@ namespace QGen
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(200, 191);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(577, 191);
             this.tableLayoutPanel3.TabIndex = 5;
             // 
             // rb_nizovi
@@ -177,6 +185,39 @@ namespace QGen
             this.rb_funkcije.UseVisualStyleBackColor = true;
             this.rb_funkcije.CheckedChanged += new System.EventHandler(this.rb_CheckedChanged);
             // 
+            // nUpDwn_brPitanja
+            // 
+            this.nUpDwn_brPitanja.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nUpDwn_brPitanja.Location = new System.Drawing.Point(291, 79);
+            this.nUpDwn_brPitanja.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nUpDwn_brPitanja.Name = "nUpDwn_brPitanja";
+            this.nUpDwn_brPitanja.Size = new System.Drawing.Size(283, 22);
+            this.nUpDwn_brPitanja.TabIndex = 5;
+            this.nUpDwn_brPitanja.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // lb_BrPitanja
+            // 
+            this.lb_BrPitanja.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lb_BrPitanja.AutoSize = true;
+            this.lb_BrPitanja.Location = new System.Drawing.Point(291, 38);
+            this.lb_BrPitanja.Name = "lb_BrPitanja";
+            this.lb_BrPitanja.Size = new System.Drawing.Size(283, 38);
+            this.lb_BrPitanja.TabIndex = 6;
+            this.lb_BrPitanja.Text = "Broj pitanja na testu:";
+            this.lb_BrPitanja.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // chart_zastupljenost
             // 
             this.chart_zastupljenost.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -246,21 +287,27 @@ namespace QGen
             this.label1.Size = new System.Drawing.Size(87, 59);
             this.label1.TabIndex = 3;
             this.label1.Text = "Lako";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(3, 119);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 17);
+            this.label3.Size = new System.Drawing.Size(87, 61);
             this.label3.TabIndex = 5;
             this.label3.Text = "Tesko";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // trackBar_lako
             // 
             this.trackBar_lako.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar_lako.LargeChange = 2;
             this.trackBar_lako.Location = new System.Drawing.Point(96, 3);
             this.trackBar_lako.Name = "trackBar_lako";
             this.trackBar_lako.Size = new System.Drawing.Size(527, 53);
@@ -269,12 +316,16 @@ namespace QGen
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(3, 59);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 17);
+            this.label2.Size = new System.Drawing.Size(87, 60);
             this.label2.TabIndex = 4;
             this.label2.Text = "Srednje";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // trackBar_srednje
             // 
@@ -367,12 +418,14 @@ namespace QGen
             this.oAplikacijiToolStripMenuItem.Name = "oAplikacijiToolStripMenuItem";
             this.oAplikacijiToolStripMenuItem.Size = new System.Drawing.Size(119, 29);
             this.oAplikacijiToolStripMenuItem.Text = "O aplikaciji";
+            this.oAplikacijiToolStripMenuItem.Click += new System.EventHandler(this.oAplikacijiToolStripMenuItem_Click);
             // 
             // pomocToolStripMenuItem
             // 
             this.pomocToolStripMenuItem.Name = "pomocToolStripMenuItem";
             this.pomocToolStripMenuItem.Size = new System.Drawing.Size(83, 29);
             this.pomocToolStripMenuItem.Text = "Pomoc";
+            this.pomocToolStripMenuItem.Click += new System.EventHandler(this.pomocToolStripMenuItem_Click);
             // 
             // glavna_forma
             // 
@@ -381,6 +434,7 @@ namespace QGen
             this.ClientSize = new System.Drawing.Size(1318, 553);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.menuStrip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.MinimumSize = new System.Drawing.Size(1330, 463);
             this.Name = "glavna_forma";
@@ -389,6 +443,7 @@ namespace QGen
             this.gBox_oblasti.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nUpDwn_brPitanja)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart_zastupljenost)).EndInit();
             this.gBox_selektovana.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
@@ -430,6 +485,8 @@ namespace QGen
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem oAplikacijiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pomocToolStripMenuItem;
+        private System.Windows.Forms.NumericUpDown nUpDwn_brPitanja;
+        private System.Windows.Forms.Label lb_BrPitanja;
     }
 }
 
