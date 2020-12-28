@@ -62,7 +62,7 @@ namespace Logic
             IMutation mutation = new TestMutation(oblasti, zastupljenost_kao_br_pitanja);
 
 
-            ITermination termination = new OrTermination(new ITermination[] { new TestTermination(100),
+            ITermination termination = new OrTermination(new ITermination[] { new TestTermination(100,oblasti),
                                                                               new FitnessThresholdTermination(oblasti.Count),
                                                                               new GenerationNumberTermination(3000) });
 
@@ -98,6 +98,10 @@ namespace Logic
             var lista = tests.Where(x => !x.HasDuplicate()).OrderByDescending(x => x.Fitness.Value).ToList();
             Test bestChromosome = lista.FirstOrDefault();
 
+            foreach (var q in bestChromosome.questions)
+            {
+                q.Izabrano = true;
+            }
 
             return bestChromosome;
         }
