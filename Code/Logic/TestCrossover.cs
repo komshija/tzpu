@@ -44,10 +44,10 @@ namespace Logic
                 Test bestChild = null;
                 TestFitness fFunc = new TestFitness(oblasti, zastupljenost, 0);
 
-                for (int j = 0; j < (parents[0].Length * 100) * r.NextDouble(); j++)
+                for (int j = 0; j < test1.questions.Count * 50; j++)
                 {
                     MiSe.Shuffle.ShuffleOps.ShuffleInPlace(allQuestions, r);
-                    Test temp = new Test(allQuestions.Take(parents[0].Length).ToList(), parents[0].Length);
+                    Test temp = new Test(allQuestions.Take(test1.questions.Count).ToList(), test1.questions.Count);
                     if (bestChild == null)
                         bestChild = temp;
                     else

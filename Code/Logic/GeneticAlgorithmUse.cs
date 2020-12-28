@@ -55,7 +55,7 @@ namespace Logic
             //ICrossover crossover = new UniformCrossover();
             //ICrossover crossover = new ThreeParentCrossover();
             //ICrossover crossover = new PositionBasedCrossover();
-            ICrossover crossover = new TestCrossover(oblasti, zastupljenost_kao_br_pitanja, 4,2);
+            ICrossover crossover = new TestCrossover(oblasti, zastupljenost_kao_br_pitanja, 8,4);
 
 
             // Menjamo jedno pitanje nasumicnim pitanjem iz baze podataka

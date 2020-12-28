@@ -160,10 +160,29 @@ namespace UnitTest
             foreach (var test in testovi)
             {
                 if (test.questions.Contains(null))
+                {
                     flag = false;
+                    break;
+                }
             }
 
             Assert.IsTrue(flag, "Neki test ima pitanje koje je null!");
+        }
+        [TestMethod]
+        public void Svi_Testovi_Zadovoljavaju_Kriterijume()
+        {
+            TestFitness tf = new TestFitness(oblasti, zastupljenost, 0);
+            bool flag = true;
+            foreach (var test in testovi)
+            {
+                if (tf.Evaluate(test) != oblasti.Count)
+                {
+                    flag = false;
+                    break;
+                }
+            }
+
+            Assert.IsTrue(flag, "Neki test ne ispunjava kriterijume!");
         }
     }
 }
