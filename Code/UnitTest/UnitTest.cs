@@ -38,9 +38,9 @@ namespace UnitTest
             //14 = 4 + 2*5 - Matrice Tesko
             #endregion
 
-            oblasti = new List<int> { 3, 5, 8, 11 };
-            zastupljenost = new List<double> { 0.6, 0.2, 0.4, 0.4 };
-            testLength = 5;
+            oblasti = new List<int> { 3, 5, 8, 11, 14 };
+            zastupljenost = new List<double> { 0.6, 0.2, 0.4, 0.4, 0.4 };
+            testLength = 6;
             gen = new GeneticAlgorithmUse();
             testovi = new List<Test>();
             

@@ -48,5 +48,10 @@ namespace QGen
             foreach (DataGridViewRow row in dgv_test.Rows)
                 row.Height = (dgv_test.ClientRectangle.Height - dgv_test.ColumnHeadersHeight) / dgv_test.Rows.Count;
         }
+
+        private void btn_ok_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

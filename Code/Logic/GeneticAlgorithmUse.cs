@@ -35,7 +35,7 @@ namespace Logic
 
             List<double> zastupljenost_kao_br_pitanja = new List<double>();
             foreach (var vrednost in zastupljenost)
-                zastupljenost_kao_br_pitanja.Add(Math.Round(vrednost * Test_Length));
+                zastupljenost_kao_br_pitanja.Add(Math.Round(vrednost * Test_Length + 0.01));
 
             var fitness = new TestFitness(oblasti, zastupljenost_kao_br_pitanja, 0);
 

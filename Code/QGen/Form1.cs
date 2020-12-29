@@ -14,6 +14,11 @@ namespace QGen
     {
         private Dictionary<int, double> oblastZastupljenost;
         private Dictionary<int, string> namesOfDomains = new Dictionary<int, string>(5 * 3);
+        
+        private List<int> oblasti;
+        private List<double> zastupljenost;
+        private int brPitanja;
+       
         bool changed = false;
         public glavna_forma()
         {
@@ -40,6 +45,8 @@ namespace QGen
             namesOfDomains.Add(12, "Funkcije Tesko");
             namesOfDomains.Add(13, "Fajlovi Tesko");
             namesOfDomains.Add(14, "Matrice Tesko");
+
+            brPitanja = 5;
         }
 
         private void rb_CheckedChanged(object sender, EventArgs e)
@@ -97,6 +104,9 @@ namespace QGen
         {
 
             StringBuilder stringBuilder = new StringBuilder();
+            oblasti = new List<int>();
+            zastupljenost = new List<double>();
+
             stringBuilder.AppendLine($"Broj broj pitanja: {nUpDwn_brPitanja.Value}");
             double sum = 0;
             double odnos = 0;
@@ -105,20 +115,23 @@ namespace QGen
                 odnos = item.Value / 10.0;
                 stringBuilder.AppendLine(namesOfDomains[item.Key] + " : " + (odnos * 100) + "%");
                 sum += odnos;
+                oblasti.Add(item.Key);
+                zastupljenost.Add(odnos);
             }
             if(sum < 1)
                 MessageBox.Show("Zbir zastupljenosti nije 100% na testu!","Greska!",buttons: MessageBoxButtons.OK,icon:MessageBoxIcon.Error);
             else
             {
                 var result = MessageBox.Show(stringBuilder.ToString(),"Da li ste sigurni?",buttons: MessageBoxButtons.YesNo,icon: MessageBoxIcon.Question);
-                if (result == DialogResult.OK)
+                if (result == DialogResult.Yes)
                 {
                     //Zovi 
+                    Logic.GeneticAlgorithmUse gen = new Logic.GeneticAlgorithmUse();
 
-                    //var t = pozovi algoritam..
+                    var t = gen.UseAlgorithm(oblasti, zastupljenost, brPitanja);
 
-                    //TestPreview testPreviewForm = new TestPreview(t);
-                    //testPreviewForm.ShowDialog();
+                    TestPreview testPreviewForm = new TestPreview(t);
+                    testPreviewForm.ShowDialog();
 
                 }
             }
@@ -140,6 +153,11 @@ namespace QGen
         {
             Uputstvo uputstvoForm = new Uputstvo();
             uputstvoForm.Show();
+        }
+
+        private void nUpDwn_brPitanja_ValueChanged(object sender, EventArgs e)
+        {
+            brPitanja = (int)nUpDwn_brPitanja.Value;
         }
     }
 }

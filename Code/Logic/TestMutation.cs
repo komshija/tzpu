@@ -28,11 +28,28 @@ namespace Logic
                 var test = chromosome as Test;
 
                 var possibleQuesitons = dataAccess.GetQuestionsWhichContainDomains(oblasti);
+                var fFunc = new TestFitness(oblasti, zastupljenost, 0);
+                double fitness = fFunc.Evaluate(test);
 
-                int tIndex = r.Next(test.questions.Count);
-                int qIndex = r.Next(possibleQuesitons.Count);
 
-                test.questions[tIndex] = possibleQuesitons[qIndex];
+                int bestIndex = -1;
+                int qIndex;
+                do
+                {
+                    qIndex = r.Next(possibleQuesitons.Count);
+                    for (int index = 0; index < test.questions.Count; index++)
+                    {
+                        var q = test.CreateNew() as Test;
+
+                        q.questions[index] = possibleQuesitons[qIndex];
+                        if (!q.HasDuplicate() && fFunc.Evaluate(q) >= fitness)
+                            bestIndex = index;
+
+                    }
+
+                } while (bestIndex == -1);
+
+                test.questions[bestIndex] = possibleQuesitons[qIndex];
 
             }
         }

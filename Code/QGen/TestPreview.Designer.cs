@@ -52,13 +52,14 @@ namespace QGen
             this.c_id,
             this.c_tekst,
             this.c_oblasti});
-            this.dgv_test.Location = new System.Drawing.Point(3, 3);
+            this.dgv_test.Location = new System.Drawing.Point(2, 2);
+            this.dgv_test.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dgv_test.Name = "dgv_test";
             this.dgv_test.ReadOnly = true;
             this.dgv_test.RowHeadersWidth = 51;
             this.dgv_test.RowTemplate.Height = 24;
             this.dgv_test.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dgv_test.Size = new System.Drawing.Size(906, 334);
+            this.dgv_test.Size = new System.Drawing.Size(680, 272);
             this.dgv_test.TabIndex = 0;
             this.dgv_test.SizeChanged += new System.EventHandler(this.dgv_test_SizeChanged);
             // 
@@ -95,12 +96,13 @@ namespace QGen
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.dgv_test, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btn_ok, 0, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(9, 10);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 90F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(912, 378);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(684, 307);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // btn_ok
@@ -108,20 +110,23 @@ namespace QGen
             this.btn_ok.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_ok.Location = new System.Drawing.Point(3, 343);
+            this.btn_ok.Location = new System.Drawing.Point(2, 278);
+            this.btn_ok.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_ok.Name = "btn_ok";
-            this.btn_ok.Size = new System.Drawing.Size(906, 32);
+            this.btn_ok.Size = new System.Drawing.Size(680, 27);
             this.btn_ok.TabIndex = 1;
             this.btn_ok.Text = "Ok";
             this.btn_ok.UseVisualStyleBackColor = true;
+            this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
             // 
             // TestPreview
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(936, 402);
+            this.ClientSize = new System.Drawing.Size(702, 327);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "TestPreview";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Test Preview";
