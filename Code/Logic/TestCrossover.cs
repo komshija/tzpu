@@ -37,8 +37,8 @@ namespace Logic
 
                 Test bestChild = null;
                 TestFitness fFunc = new TestFitness(oblasti, zastupljenost, 0);
-				int nasumicanBroj = Convert.ToInt32(test1.questions.Count * 50 * r.NextDouble());
-                for (int j = 0; j < nasumicanBroj; j++)
+				int BrojPermutacija = test1.questions.Count * 50;
+                for (int j = 0; j < BrojPermutacija; j++)
                 {
                     MiSe.Shuffle.ShuffleOps.ShuffleInPlace(allQuestions, r);
                     Test temp = new Test(allQuestions.Take(test1.questions.Count).ToList(), test1.questions.Count);

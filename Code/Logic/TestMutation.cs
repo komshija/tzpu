@@ -31,28 +31,27 @@ namespace Logic
                 var fFunc = new TestFitness(oblasti, zastupljenost, 0);
                 double fitness = fFunc.Evaluate(test);
 
-                for (int i = 0; i < Convert.ToInt32(test.Length * 0.2); i++)
+
+                int bestIndex = -1;
+                int qIndex;
+                do
                 {
-                    int bestIndex = -1;
-                    int qIndex;
-                    do
+                    qIndex = r.Next(possibleQuesitons.Count);
+                    for (int index = 0; index < test.questions.Count; index++)
                     {
-                        qIndex = r.Next(possibleQuesitons.Count);
-                        for (int index = 0; index < test.questions.Count; index++)
-                        {
-                            var q = test.CreateNew() as Test;
+                        var q = test.CreateNew() as Test;
 
-                            q.questions[index] = possibleQuesitons[qIndex];
-                            if (!q.HasDuplicate() && fFunc.Evaluate(q) >= fitness)
-                                bestIndex = index;
+                        q.questions[index] = possibleQuesitons[qIndex];
+                        if (!q.HasDuplicate() && fFunc.Evaluate(q) >= fitness)
+                            bestIndex = index;
 
-                        }
+                    }
 
-                    } while (bestIndex == -1);
+                } while (bestIndex == -1);
 
-                    test.questions[bestIndex] = possibleQuesitons[qIndex];
-                }
+                test.questions[bestIndex] = possibleQuesitons[qIndex];
             }
+
         }
     }
 }
