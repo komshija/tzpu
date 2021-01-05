@@ -16,7 +16,6 @@ namespace DataAccess
             DomainName = domainName;
             DomainDifficulty = domainDifficulty;
         }
-
         public override string ToString()
         {
             return $"{DomainName}";

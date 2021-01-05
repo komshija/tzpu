@@ -74,13 +74,7 @@ namespace DataAccess
         #endregion
 
         #region Methods
-        public double UkupnaTezinaTesta()
-        {
-            double sum = 0;
-            foreach (var q in questions)
-                sum += q.GetOverallDifficulty();
-            return sum;
-        }
+     
         public double BrojPitanjaKojaSadrzeOblast(int domainId)
         {
             return Convert.ToDouble(questions.Count(q => q.ContainsDomain(domainId)));
@@ -93,7 +87,6 @@ namespace DataAccess
             sveTezine.ForEach(lista => ids.AddRange(lista));
             return ids.Select(x=>x.DomainID).Distinct().ToList();
         }
-      
 
         public bool HasDuplicate()
         {

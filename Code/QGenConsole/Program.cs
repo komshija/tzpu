@@ -30,56 +30,15 @@ namespace QGenConsole
             //13 = 3 + 2*5 - Fajlovi Tesko
             //14 = 4 + 2*5 - Matrice Tesko
             #endregion
-
             #region Test_Primeri
-            /*
-            // Test 1 - Nalazi brzo - Kandidat za prezentaciji
-            List<int> oblasti = new List<int> { 1, 6, 7, 14, 10 };
-            List<double> zastupljenost = new List<double> { 0.6, 0.4, 0.4, 0.6, 0.4 };
-            
-            // Kandidat za prezentaciju
-            List<int> oblasti = new List<int> { 1, 6, 7, 14, 10, 3 };
-            List<double> zastupljenost = new List<double> { 0.6, 0.4, 0.4, 0.6, 0.4, 0.4 };
-
-
-            // Test 2 - Nalazi brzo
-            List<int> oblasti = new List<int> { 1, 6, 7, 14 };
-            List<double> zastupljenost = new List<double> { 0.6, 0.4, 0.4, 0.6 };
-
-            // Test 3 - Nalazi prebrzo
-            List<int> oblasti = new List<int> { 3, 5, 8 };
-            List<double> zastupljenost = new List<double> { 0.6, 0.2, 0.4 };
-
-            //Test 4 - Nemoguce naci za 5, nalazi lako za 10
-            List<int> oblasti = new List<int> { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14 };
-            List<double> zastupljenost = new List<double> { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 };
-            
-            //Test 5 - Nalazi
-            List<int> oblasti = new List<int> { 3, 5, 8, 11 };
-            List<double> zastupljenost = new List<double> { 0.6, 0.2, 0.4, 0.4 };
-            */
-
-
-            /*
-             * POBOLJSATI
-            
-            // Problem kod ovoga je sto imamo 3 i 13 i odnos 0.6 i 0.4
-            //List<int> oblasti = new List<int> { 3, 5, 8, 13 };
-            //List<double> zastupljenost = new List<double> { 0.6, 0.2, 0.4, 0.4 };
-
-            // Problem je sto ne moze da nadje kombinaciju 0 i 5 , 0 i 8
-            //List<int> oblasti = new List<int> { 0, 5, 8, 10 };
-            //List<double> zastupljenost = new List<double> { 0.6, 0.2, 0.4, 0.4 };
-            */
-
             // TRENUTNO
-            List<int> oblasti = new List<int> { 3, 5, 8, 11 };
-            List<double> zastupljenost = new List<double> { 0.6, 0.2, 0.4, 0.4 };
-            int testLength = 7;
+            List<int> oblasti = new List<int>();
+            List<double> zastupljenost = new List<double>();
+            int testLength = 5;
 
             #endregion
             #region Unos
-            /*
+            
             string unos = null;
             bool stop_flag = false;
             oblasti.Clear();
@@ -131,8 +90,10 @@ namespace QGenConsole
                 Console.WriteLine($"Oblast {oblasti[i]} je zastupljena {zastupljenost[i]}.");
 
             Console.WriteLine("======================================");
-            */
+
             #endregion
+            #region GenAlg
+
             var gen = new Logic.GeneticAlgorithmUse();
             Test test = gen.UseAlgorithm(oblasti, zastupljenost, testLength);
 
@@ -145,7 +106,7 @@ namespace QGenConsole
             }
             else
                 Console.WriteLine("Nemoguce naci trazeni test!");
-
+            #endregion
         }
     }
 }

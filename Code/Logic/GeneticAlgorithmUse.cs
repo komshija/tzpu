@@ -29,9 +29,9 @@ namespace Logic
 
             Test adamTest = new Test(qs, Test_Length);
 
-            int num = DataAccess.DataAccess.GetInstance().GetQuestionsWhichContainDomains(oblasti).Count;
-            Console.WriteLine($"Broj pitanja koja sadrze samo ove oblasti {num}");
-            Console.WriteLine();
+            //int num = DataAccess.DataAccess.GetInstance().GetQuestionsWhichContainDomains(oblasti).Count;
+            //Console.WriteLine($"Broj pitanja koja sadrze samo ove oblasti {num}");
+            //Console.WriteLine();
 
             List<double> zastupljenost_kao_br_pitanja = new List<double>();
             foreach (var vrednost in zastupljenost)
@@ -45,27 +45,15 @@ namespace Logic
                 GenerationStrategy = generationStrategy
             };
 
-
             ISelection selection = new EliteSelection();
 
-
-            // Crossover => TwoPoint 
-            //ICrossover crossover = new TwoPointCrossover();
-            //ICrossover crossover = new OnePointCrossover(Convert.ToInt32(0.6*Test_Lenght));
-            //ICrossover crossover = new UniformCrossover();
-            //ICrossover crossover = new ThreeParentCrossover();
-            //ICrossover crossover = new PositionBasedCrossover();
             ICrossover crossover = new TestCrossover(oblasti, zastupljenost_kao_br_pitanja, 8,4);
 
-
-            // Menjamo jedno pitanje nasumicnim pitanjem iz baze podataka
             IMutation mutation = new TestMutation(oblasti, zastupljenost_kao_br_pitanja);
-
 
             ITermination termination = new OrTermination(new ITermination[] { new TestTermination(100,oblasti),
                                                                               new FitnessThresholdTermination(oblasti.Count),
                                                                               new GenerationNumberTermination(3000) });
-
 
             GeneticAlgorithm ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
             {
@@ -74,7 +62,7 @@ namespace Logic
                 MutationProbability = 0.7f
             };
 
-            Console.WriteLine("Fitness change:");
+            //Console.WriteLine("Fitness change:");
 
             // Callback, prikazuje kada dodje do promene fitnessa
             double oldFitness = 0;
@@ -85,7 +73,7 @@ namespace Logic
                 {
                     oldFitness = ga.BestChromosome.Fitness.Value;
                     tests.Add(ga.BestChromosome as Test);
-                    Console.WriteLine($"Current fitness: {ga.BestChromosome.Fitness} for generation : {ga.GenerationsNumber}");
+                    //Console.WriteLine($"Current fitness: {ga.BestChromosome.Fitness} for generation : {ga.GenerationsNumber}");
                 }
 
             };

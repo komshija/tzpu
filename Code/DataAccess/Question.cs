@@ -94,11 +94,6 @@ namespace DataAccess
         #region Methods
 
 
-        public double GetOverallDifficulty()
-        {
-            return difficulties.Average(x => x.DomainDifficulty);
-        }
-
         public bool ContainsDomain(int domainId)
         {
             return difficulties.Exists(x => x.DomainID == domainId);

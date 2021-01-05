@@ -65,12 +65,6 @@ namespace DataAccess
             return questions.Find(q => q.Id == id);
         }
 
-        public List<Question> GetQuestionsByOverallDifficulty(double difficulty, double tolerance)
-        {
-            var result = questions.Where(q => (q.GetOverallDifficulty() >= difficulty - tolerance && q.GetOverallDifficulty() <= difficulty + tolerance)).ToList();
-            return result;
-        }
-
         public List<Question> GetQuestionsWhichContainsDomain(int domainId)
         {
             var result = questions.Where(q => q.ContainsDomain(domainId) && !q.Izabrano).ToList();
@@ -90,37 +84,10 @@ namespace DataAccess
             result.AddRange(questions.Where(q => q.Difficulties.Count <= domainIds.Count && q.HaveAllDomains(domainIds) && q.Izabrano).ToList());
             return result.Distinct().ToList();
         }
-
-        public List<Question> GetQuestionsHarderThen(Question question)
-        {
-            var result = questions.Where(q => q.GetOverallDifficulty() >= question.GetOverallDifficulty()).ToList();
-            return result;
-        }
-
-        public List<Question> GetQuestionsEasierThen(Question question)
-        {
-            var result = questions.Where(q => q.GetOverallDifficulty() <= question.GetOverallDifficulty()).ToList();
-            return result;
-        }
-
-        public List<Question> GetQuestionsEqualDifficultyWith(Question question, double tolerance)
-        {
-            double difficulty = question.GetOverallDifficulty();
-            var result = questions.Where(q => (q.GetOverallDifficulty() >= difficulty - tolerance && q.GetOverallDifficulty() <= difficulty + tolerance)).ToList();
-            return result;
-        }
-
-        public List<Question> GetQuestionsDomainDifficulty(int domainBase, int difficulty)
-        {
-            var result = questions.Where(q => q.ContainsDomain(domainBase + 5 * difficulty)).ToList();
-            return result;
-        }
-
         public List<Question> GetAllQuestions()
         {
             return questions;
         }
-
         public List<int> GetAllDomains()
         {
             List<int> result = new List<int>(15);
