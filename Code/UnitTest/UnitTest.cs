@@ -14,6 +14,7 @@ namespace UnitTest
         protected List<int> oblasti;
         protected List<double> zastupljenost;
         protected int testLength;
+        protected int n;
 
         [TestInitialize]
         public virtual void Inicijalizacija()
@@ -38,28 +39,29 @@ namespace UnitTest
             //14 = 4 + 2*5 - Matrice Tesko
             #endregion
 
-            oblasti = new List<int> { 3, 5, 8, 11, 14 };
-            zastupljenost = new List<double> { 0.6, 0.2, 0.4, 0.4, 0.4 };
-            testLength = 6;
+            oblasti = new List<int> { 3, 5, 7, 14, 10, 2 };
+            zastupljenost = new List<double> { 0.6, 0.2, 0.4, 0.4, 0.3, 0.5 };
+            testLength = 5;
             gen = new GeneticAlgorithmUse();
             testovi = new List<Test>();
+            n = 10;
             
             List<Question> pitanja = DataAccess.DataAccess.GetInstance().GetQuestionsWhichContainDomainsAndAreSelected(oblasti);
             if (pitanja.Count != 0)
                 foreach (var p in pitanja)
                     p.Izabrano = false;
             
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < n; i++)
                 testovi.Add(gen.UseAlgorithm(oblasti,zastupljenost,testLength));
         }
         [TestMethod]
-        public void Kreirano_Je_50_Testova()
+        public void Kreirano_Je_Zadat_Broj_Testova()
         {
             testovi.RemoveAll(t => t == null);
             if (testovi.Count == 0)
                 Assert.IsTrue(false, "Lista testova je prazna!");
 
-            Assert.AreEqual(50, testovi.Count, "Nije generisano 50 testova!");
+            Assert.AreEqual(n, testovi.Count, "Nije kreirano zadat broj testova testova!");
         }
 
         [TestMethod]
@@ -88,7 +90,7 @@ namespace UnitTest
 
             foreach (var test in testovi)
             {
-                if (test.Length != 5)
+                if (test.Length != testLength)
                     flag = false;
             }
             Assert.IsTrue(flag,"Neki test nije zadate duzine!");
@@ -171,11 +173,10 @@ namespace UnitTest
         [TestMethod]
         public void Svi_Testovi_Zadovoljavaju_Kriterijume()
         {
-            TestFitness tf = new TestFitness(oblasti, zastupljenost, 0);
             bool flag = true;
             foreach (var test in testovi)
             {
-                if (tf.Evaluate(test) != oblasti.Count)
+                if (test.Fitness != oblasti.Count)
                 {
                     flag = false;
                     break;
