@@ -16,5 +16,10 @@ namespace QGen
         {
             InitializeComponent();
         }
+
+        private void Uputstvo_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

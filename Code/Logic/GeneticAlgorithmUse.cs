@@ -29,10 +29,6 @@ namespace Logic
 
             Test adamTest = new Test(qs, Test_Length);
 
-            //int num = DataAccess.DataAccess.GetInstance().GetQuestionsWhichContainDomains(oblasti).Count;
-            //Console.WriteLine($"Broj pitanja koja sadrze samo ove oblasti {num}");
-            //Console.WriteLine();
-
             List<double> zastupljenost_kao_br_pitanja = new List<double>();
             foreach (var vrednost in zastupljenost)
                 zastupljenost_kao_br_pitanja.Add(Math.Round(vrednost * Test_Length + 0.01));
@@ -62,11 +58,10 @@ namespace Logic
                 MutationProbability = 0.7f
             };
 
-            //Console.WriteLine("Fitness change:");
-
-            // Callback, prikazuje kada dodje do promene fitnessa
+          
             double oldFitness = 0;
             List<Test> tests = new List<Test>();
+            //Callback
             ga.GenerationRan += (sender, arg) =>
             {
                 if (ga.BestChromosome.Fitness >= oldFitness)
@@ -77,7 +72,6 @@ namespace Logic
                 }
 
             };
-            Console.WriteLine("=================================================");
 
             ga.Start();
 

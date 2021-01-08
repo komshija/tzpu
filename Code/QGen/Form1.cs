@@ -127,11 +127,18 @@ namespace QGen
                 {
                     //Zovi 
                     Logic.GeneticAlgorithmUse gen = new Logic.GeneticAlgorithmUse();
+                    try
+                    {
+                        var t = gen.UseAlgorithm(oblasti, zastupljenost, brPitanja);
+                        TestPreview testPreviewForm = new TestPreview(t);
+                        testPreviewForm.ShowDialog();
+                    }
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show("Došlo je do greske.", "Greska!", buttons: MessageBoxButtons.OK, icon: MessageBoxIcon.Error);
+                        return;
+                    }
 
-                    var t = gen.UseAlgorithm(oblasti, zastupljenost, brPitanja);
-
-                    TestPreview testPreviewForm = new TestPreview(t);
-                    testPreviewForm.ShowDialog();
 
                 }
             }
