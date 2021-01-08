@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QGenConsole", "QGenConsole\QGenConsole.csproj", "{8ECF21C5-181E-4EFC-A384-0A7BB1371E94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{0B37164E-DE6B-4622-B7DE-7AC086932CE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{0B37164E-DE6B-4622-B7DE-7AC086932CE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{86F0F361-28EA-452C-97F7-2F53ADB2CCD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0B37164E-DE6B-4622-B7DE-7AC086932CE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B37164E-DE6B-4622-B7DE-7AC086932CE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B37164E-DE6B-4622-B7DE-7AC086932CE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86F0F361-28EA-452C-97F7-2F53ADB2CCD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86F0F361-28EA-452C-97F7-2F53ADB2CCD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86F0F361-28EA-452C-97F7-2F53ADB2CCD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86F0F361-28EA-452C-97F7-2F53ADB2CCD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

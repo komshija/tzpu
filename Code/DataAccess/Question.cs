@@ -7,13 +7,13 @@ namespace DataAccess
 {
     public class Question
     {
-        #region Atributtes
+        #region Attributes
         private List<Difficulty> difficulties;
         private string text;
         private int id;
+        private bool izabrano;
 
         #endregion
-
 
         #region Properties
         public List<Difficulty> Difficulties
@@ -35,25 +35,40 @@ namespace DataAccess
             set { id = value; }
         }
 
+        public bool Izabrano
+        {
+            get { return izabrano; }
+            set { izabrano = value; }
+        }
 
         #endregion
 
-        public Question(int id,string text,List<Difficulty> difficulties)
+        #region Constructors
+        public Question(int id, string text, List<Difficulty> difficulties)
         {
             this.id = id;
             this.text = text;
             this.difficulties = difficulties;
         }
-
+        #endregion
 
         #region Overrides
 
 
         public override string ToString()
         {
-            StringBuilder s = new StringBuilder($"{id} :: Tekst: {text} :: ");
-            foreach(Difficulty d in difficulties)
-                s.Append(d.ToString() + " ");
+            StringBuilder s = new StringBuilder();
+            if (id < 100)
+                s.Append($"{id}   :: ");
+            else if(id <1000)
+                s.Append($"{id}  :: ");
+            else
+                s.Append($"{id} :: ");
+
+            foreach(Difficulty d in difficulties.OrderBy(x => x.DomainID))
+                s.Append(d.DomainID + "\t");
+            //s.Append(d.ToString() + "\t"); ;
+            //s.Append($" :: Overall Diff : {this.GetOverallDifficulty()}");
             return s.ToString();
         }
 
@@ -78,29 +93,32 @@ namespace DataAccess
 
         #region Methods
 
-        public int GetDifficultyForDomain(int _domainID)
+
+        public bool ContainsDomain(int domainId)
         {
-            var result = difficulties.Where(q => q.DomainID == _domainID).SingleOrDefault();
-            if (result == null)
-                return -1;
-            return result.DomainDifficulty;
+            return difficulties.Exists(x => x.DomainID == domainId);
         }
 
-        public double GetOverallDifficulty()
+        public bool HaveAllDomains(List<int> domains)
         {
-            //Algoritam je podlozan promenama, za sad samo prosek
-            return difficulties.Average(x => x.DomainDifficulty);
-        }
-
-        public bool ContainsDomain(int _domainId)
-        {
-            return difficulties.Exists(x => x.DomainID == _domainId);
+            List<int> ostaleOblasti = DataAccess.GetInstance().GetAllDomains().ToList().Except(domains).ToList();
+            bool result = difficulties.All(d => domains.Contains(d.DomainID) && !ostaleOblasti.Contains(d.DomainID));
+            return result;
         }
 
         public List<int> GetDomainIds()
         {
             return difficulties.Select(x => x.DomainID).ToList();
         }
+
+        public string DomainsToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (var d in difficulties)
+                stringBuilder.Append(d.DomainName + "; ");
+            return stringBuilder.ToString();
+        }
+
         #endregion
 
     }
